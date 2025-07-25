@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import DepartItem from "./departBoardItem.tsx";
 import {useSearchParams} from "react-router-dom";
 import DepartInsertModal from "./departModal.tsx";
+import PageIndicator from "./pageIndicator.tsx";
 
 const DepartBoard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +15,7 @@ const DepartBoard = () => {
         page: Number(searchParams.get("page") || currentPage) - 1,
         size: 10,
     });
-    const [totalPage, setTotalPage] = useState<number[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
     const [departCount, setDepartCount] = useState(0);
     const [activeCount, setActiveCount] = useState(0);
     const [data, setData] = useState<DepartData[]>([]);
@@ -33,10 +34,8 @@ const DepartBoard = () => {
     const getPages = (pageRequest: PageRequest) => {
         return get(pageRequest)
             .then(data => {
-                console.log("00000000000000000000000000000000000000000000000000")
-                console.log(data)
                 setData(data.content);
-                pages(data.totalPages);
+                setTotalPage(data.totalPages);
             })
             .catch(() => {
                 setError(true);
@@ -44,13 +43,6 @@ const DepartBoard = () => {
             })
     }
 
-    const pages = (pages: number) => {
-        const pageList = [];
-        for (let i = 1; i <= pages; i++) {
-            pageList.push(i);
-        }
-        setTotalPage(pageList);
-    };
 
     useEffect(() => {
         setLoading(true);
@@ -174,19 +166,7 @@ const DepartBoard = () => {
                         <DepartItem key={item.departSeq} item={item}/>
                     ))}
                 </ul>
-
-                {/* 페이지네이션 */}
-                <div className="flex justify-center items-center gap-2 mt-4">
-                    {totalPage.map((page) => (
-                        <button
-                            key={page}
-                            onClick={() => goToPage(page)}
-                            className="w-8 h-8 border rounded"
-                        >
-                            {page}
-                        </button>
-                    ))}
-                </div>
+                <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
             </div>
 
             <DepartInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></DepartInsertModal>
