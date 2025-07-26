@@ -1,17 +1,30 @@
 import {useEffect, useState} from "react";
 import "../axios/depart.ts"
-import {post} from "../axios/depart.ts";
+import {post, patch} from "../axios/depart.ts";
+
 type ModalProps = {
     isOpen: boolean,
     onClose: () => void,
+    currentSeq?: number,
+    currentName?: string,
+    currentDescription?: string,
     // children: React.ReactNode,
 };
 
-const DepartInsertModal = ({isOpen, onClose}: ModalProps) => {
+const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDescription}: ModalProps) => {
+    const [seq, setSeq] = useState<number>()
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
     const handleSubmit = async () => {
+        if (seq == null || currentSeq == null) {
+            postItem()
+            return;
+        }
+        patchItem()
+    };
+
+    const postItem = () => {
         try {
             const response = post(name, description);
             console.log("저장 완료:", response.data);
@@ -21,9 +34,30 @@ const DepartInsertModal = ({isOpen, onClose}: ModalProps) => {
             console.error("저장 실패:", error);
             alert("저장에 실패했습니다.");
         }
-    };
+    }
+
+    const patchItem = () => {
+        if (!seq) {
+            postItem()
+            return;
+        }
+        try {
+            const response = patch(seq, name, description);
+            console.log("저장 완료:", response.data);
+            onClose(); // 저장 후 모달 닫기
+            window.location.reload();
+        } catch (error) {
+            console.error("저장 실패:", error);
+            alert("저장에 실패했습니다.");
+        }
+    }
 
     useEffect(() => {
+        if (currentSeq != null) {
+            setSeq(currentSeq);
+            setName(currentName ?? "");
+            setDescription(currentDescription ?? "")
+        }
         const preventScroll = (e: Event) => {
             e.preventDefault();
         };
@@ -34,9 +68,9 @@ const DepartInsertModal = ({isOpen, onClose}: ModalProps) => {
         };
 
         if (isOpen) {
-            window.addEventListener("wheel", preventScroll, { passive: false });
-            window.addEventListener("touchmove", preventScroll, { passive: false });
-            window.addEventListener("keydown", preventKeyScroll, { passive: false });
+            window.addEventListener("wheel", preventScroll, {passive: false});
+            window.addEventListener("touchmove", preventScroll, {passive: false});
+            window.addEventListener("keydown", preventKeyScroll, {passive: false});
         }
 
         // ✅ cleanup 함수 추가
@@ -59,7 +93,6 @@ const DepartInsertModal = ({isOpen, onClose}: ModalProps) => {
     }, [isOpen, onClose]);
 
     if (!isOpen) return null;
-
 
 
     return (
@@ -104,6 +137,8 @@ const DepartInsertModal = ({isOpen, onClose}: ModalProps) => {
                 </div>
             </div>
         </div>
-    );
+
+    )
 }
+
 export default DepartInsertModal;
