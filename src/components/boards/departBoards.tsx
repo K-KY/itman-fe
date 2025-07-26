@@ -1,4 +1,4 @@
-import {type DepartData, type PageRequest, get, post, getCountAll, getCount} from "../axios/depart.ts";
+import {type DepartData, type PageRequest, get, getCountAll, getCount} from "../axios/depart.ts";
 import {useEffect, useState} from "react";
 import DepartItem from "./departBoardItem.tsx";
 import {useSearchParams} from "react-router-dom";
@@ -22,8 +22,8 @@ const DepartBoard = () => {
     const [error, setError] = useState(false); // 에러 상태 추가
     const [loading, setLoading] = useState(true); // 로딩 상태도 고려
 
-    const [searchKeyword, setSearchKeyword] = useState("");
-    const [sortOption, setSortOption] = useState("recent");
+    // const [searchKeyword, setSearchKeyword] = useState("");
+    // const [sortOption, setSortOption] = useState("recent");
 
     const goToPage = (index: number) => {
         setPageRequest({page: index - 1, size: 10,});
@@ -121,12 +121,19 @@ const DepartBoard = () => {
                                     <path d="m21 21-4.3-4.3"></path>
                                 </svg>
                                 <input
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10"
-                                    placeholder="부서명, 코드, 부서장으로 검색..." value=""/></div>
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2
+                                    text-base ring-offset-background file:border-0 file:bg-transparent
+                                    file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground
+                                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                                    disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10"
+                                    placeholder="부서명, 코드, 부서장으로 검색..." defaultValue={""}/></div>
                         </div>
                         <button type="button" role="combobox" aria-controls="radix-:rg:" aria-expanded="false"
                                 aria-autocomplete="none" dir="ltr" data-state="closed"
-                                className="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&amp;&gt;span]:line-clamp-1 w-32">
+                                className="flex h-10 items-center justify-between rounded-md border border-input
+                                bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground
+                                focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                                disabled:cursor-not-allowed disabled:opacity-50 [&amp;&gt;span]:line-clamp-1 w-32">
                             <span>전체</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -152,7 +159,7 @@ const DepartBoard = () => {
 
             <div className="flex justify-end px-6 mb-2">
                 <button
-                    onClick={() => setIsModalOpen(true)} // 원하는 핸들러 함수로 연결
+                    onClick={() => setIsModalOpen(true)}
                     className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md shadow"
                 >
                     + 부서 추가
@@ -169,7 +176,7 @@ const DepartBoard = () => {
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
             </div>
 
-            <DepartInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></DepartInsertModal>
+            <DepartInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
         </div>
     )
