@@ -3,8 +3,9 @@ import axios from 'axios'
 const API_URL = 'http://localhost:8080/departs';
 
 interface DepartData {
-    departSeq: string;
+    departSeq: number;
     departName: string;
+    description: string;
     del: boolean;
     createdDate: Date;
     updatedDate: Date;
@@ -54,12 +55,20 @@ function post(name:string, description: string) {
     return axios.post(API_URL, {
         departName: name,
         description: description
-    })
-        .then(response => console.log('POST:', response.data))
+    }).then(response => console.log('POST:', response.data))
         .catch(error => console.error(error));
 }
 
-export {get, post, getCount, getCountAll};
+function patch(departSeq:number, name:string, description:string) {
+    return axios.patch(API_URL, {
+        departSeq: departSeq,
+        departName: name,
+        description: description
+    }).then(response => console.log('POST:', response.data))
+        .catch(error => console.error(error));
+}
+
+export {get, post, patch, getCount, getCountAll};
 export type {DepartData, PageRequest};
 
 
