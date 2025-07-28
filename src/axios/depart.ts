@@ -1,15 +1,8 @@
 import axios from 'axios'
+import type {Depart} from "../interfaces/Depart.ts";
 
 const API_URL = 'http://localhost:8080/departs';
 
-interface DepartData {
-    departSeq: number;
-    departName: string;
-    description: string;
-    del: boolean;
-    createdDate: Date;
-    updatedDate: Date;
-}
 
 interface PageRequest {
     page: number;
@@ -18,7 +11,7 @@ interface PageRequest {
 
 function get(pageRequest: PageRequest): Promise<{
     totalPages: number;
-    content: DepartData[] }> {
+    content: Depart[] }> {
     return axios.get(API_URL, {
         params: {page: pageRequest.page, size: pageRequest.size},
         withCredentials: true
@@ -69,6 +62,6 @@ function patch(departSeq:number, name:string, description:string) {
 }
 
 export {get, post, patch, getCount, getCountAll};
-export type {DepartData, PageRequest};
+export type {Depart, PageRequest};
 
 

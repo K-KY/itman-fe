@@ -1,9 +1,9 @@
-import type {DepartData} from "../axios/depart.ts";
 import {useState} from "react";
 import DepartInsertModal from "./departModal.tsx";
+import type {Depart} from "../../interfaces/Depart.ts";
 
 interface DepartItemProps {
-    item: DepartData;
+    item: Depart;
 }
 
 const DepartItem = ({item}: DepartItemProps) => {
