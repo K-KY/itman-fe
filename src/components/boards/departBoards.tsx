@@ -1,4 +1,4 @@
-import {type DepartData, type PageRequest, get, getCountAll, getCount} from "../axios/depart.ts";
+import {type PageRequest, get, getCountAll, getCount, type Depart} from "../../axios/depart.ts";
 import {useEffect, useState} from "react";
 import DepartItem from "./departBoardItem.tsx";
 import {useSearchParams} from "react-router-dom";
@@ -18,7 +18,7 @@ const DepartBoard = () => {
     const [totalPage, setTotalPage] = useState(0);
     const [departCount, setDepartCount] = useState(0);
     const [activeCount, setActiveCount] = useState(0);
-    const [data, setData] = useState<DepartData[]>([]);
+    const [data, setData] = useState<Depart[]>([]);
     const [error, setError] = useState(false); // 에러 상태 추가
     const [loading, setLoading] = useState(true); // 로딩 상태도 고려
 
@@ -60,9 +60,6 @@ const DepartBoard = () => {
         getPages(pageRequest);
     }, [pageRequest]);
 
-
-    console.log(data);
-    console.log(totalPage);
     if (loading) {
         return <div className="p-4">로딩 중입니다...</div>
     }
@@ -75,16 +72,17 @@ const DepartBoard = () => {
     return (
         <div className={"m-4"}>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-2">
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-                    <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2"><h3
-                        className="tracking-tight text-sm font-medium">총 부서 수</h3>
+                <div className="rounded-lg border ">
+                    <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                        <h3 className="tracking-tight text-sm font-medium">총 부서 수</h3>
                         <img src={"/depart_manage.svg"} alt=""/>
                     </div>
                     <div className="p-6 pt-0">
                         <div className="text-2xl font-bold">{departCount}</div>
-                        <p className="text-xs text-muted-foreground">활성 {activeCount}개</p></div>
+                        <p className="text-xs text-muted-foreground">활성 {activeCount}개</p>
+                    </div>
                 </div>
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="rounded-lg border ">
                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2"><h3
                         className="tracking-tight text-sm font-medium">총 인원</h3>
                         <img src={"/employee_manage.svg"} alt="직원 관리"/>
@@ -93,7 +91,7 @@ const DepartBoard = () => {
                         <div className="text-2xl font-bold">210명</div>
                         <p className="text-xs text-muted-foreground">전체 임직원 수</p></div>
                 </div>
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="rounded-lg border ">
                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                         <h3 className="tracking-tight text-sm font-medium">평균 부서 규모</h3>
                         <img src={"/reports.svg"} alt="reports"/>
@@ -102,11 +100,11 @@ const DepartBoard = () => {
                         <div className="text-2xl font-bold">19.1명</div>
                         <p className="text-xs text-muted-foreground">부서당 평균 인원</p></div>
                 </div>
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="rounded-lg border ">
                 </div>
             </div>
 
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm m-3">
+            <div className="rounded-lg border  m-3">
                 <div className="flex flex-col space-y-1.5 p-6"><h3 className="font-semibold tracking-tight text-lg">검색 및
                     필터</h3></div>
                 <div className="p-6 pt-0">
@@ -169,7 +167,7 @@ const DepartBoard = () => {
 
             <div className="min-h-[400px] flex flex-col justify-between p-3">
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
-                    {data.map((item: DepartData) => (
+                    {data.map((item: Depart) => (
                         <DepartItem key={item.departSeq} item={item}/>
                     ))}
                 </ul>
@@ -182,13 +180,6 @@ const DepartBoard = () => {
     )
 }
 
-const EmployeeBoard = () => {
-    return (
-        <div>
-            <h2 className={"text-9xl"}>employee</h2>
-        </div>
-    )
-}
 
 const AssetBoard = () => {
     return (
@@ -197,4 +188,4 @@ const AssetBoard = () => {
         </div>
     )
 }
-export {DepartBoard, EmployeeBoard, AssetBoard}
+export {DepartBoard, AssetBoard}

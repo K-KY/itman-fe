@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import "../axios/depart.ts"
-import {post, patch} from "../axios/depart.ts";
+import "../../axios/depart.ts"
+import {post, patch} from "../../axios/depart.ts";
 
 type ModalProps = {
     isOpen: boolean,
@@ -27,7 +27,7 @@ const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDes
     const postItem = () => {
         try {
             const response = post(name, description);
-            console.log("저장 완료:", response.data);
+            console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
             window.location.reload();
         } catch (error) {
@@ -43,7 +43,7 @@ const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDes
         }
         try {
             const response = patch(seq, name, description);
-            console.log("저장 완료:", response.data);
+            console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
             window.location.reload();
         } catch (error) {
