@@ -4,7 +4,9 @@ import './index.css'
 import {Header} from "./components/header/header.tsx";
 import {SideBar} from "./components/sideBar/sideBar.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {AssetBoard, DepartBoard, EmployeeBoard} from "./components/boards/departBoards.tsx";
+import {AssetBoard, DepartBoard} from "./components/boards/departBoards.tsx";
+import EmployeeBoard from "./components/boards/employeeBoards.tsx";
+import NewEmployee from "./components/boards/newEmployee.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -18,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route path="/departs" element={<DepartBoard />} />
                             <Route path="/employees" element={<EmployeeBoard />} />
                             <Route path="/assets" element={<AssetBoard />} />
+                            <Route path="/employees/new" element={<NewEmployee />} />
                         </Routes>
                     </div>
                 </div>
