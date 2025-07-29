@@ -1,13 +1,9 @@
 import axios from 'axios'
 import type {Depart} from "../interfaces/Depart.ts";
+import type {PageRequest} from "../interfaces/PageRequest.ts";
 
 const API_URL = 'http://localhost:8080/departs';
 
-
-interface PageRequest {
-    page: number;
-    size: number;
-}
 
 function get(pageRequest: PageRequest): Promise<{
     totalPages: number;
