@@ -12,7 +12,7 @@ const DepartBoard = () => {
     const currentPage = Number(searchParams.get("page") || 1); // 기본 1페이지
 
     const [pageRequest, setPageRequest] = useState<PageRequest>({
-        page: Number(searchParams.get("page") || currentPage) - 1,
+        page: Number(searchParams.get("page") || currentPage),
         size: 10,
     });
     const [totalPage, setTotalPage] = useState(0);
@@ -26,7 +26,7 @@ const DepartBoard = () => {
     // const [sortOption, setSortOption] = useState("recent");
 
     const goToPage = (index: number) => {
-        setPageRequest({page: index - 1, size: 10,});
+        setPageRequest({page: index, size: 10,});
         setSearchParams({page: String(index)});
     }
 
