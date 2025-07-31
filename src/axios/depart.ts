@@ -5,59 +5,75 @@ import type {PageRequest} from "../interfaces/PageRequest.ts";
 const API_URL = 'http://localhost:8080/departs';
 
 
-function get(pageRequest: PageRequest): Promise<{
+const empty = {
+    totalPages: 0,
+    content: []
+};
+
+async function getDeparts(pageRequest: PageRequest): Promise<{
     totalPages: number;
-    content: Depart[] }> {
-    return axios.get(API_URL, {
-        params: {page: pageRequest.page, size: pageRequest.size},
-        withCredentials: true
-    })
-        .then(response =>
-            response.data)
-        .catch(error => {
-            console.error(error);
-            return [];
+    content: Depart[]
+}> {
+    try {
+        const response = await axios.get(API_URL, {
+            params: {page: pageRequest.page, size: pageRequest.size},
+            withCredentials: true
         });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return empty;
+    }
 }
 
-function getCountAll() {
-    return axios.get(API_URL + "/count", {})
-        .then(response => response.data)
-        .catch(error => {
-            console.error(error);
-            return 0;
-        });
+async function getCountAll() {
+    try {
+        const response = await axios.get(API_URL + "/count", {});
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return 0;
+    }
 }
 
-function getCount(del: boolean) {
-    return axios.get(API_URL + `/count/${del}`, {})
-        .then(response => response.data)
-        .catch(error => {
-            console.error(error);
-            return 0;
-        })
+async function getCount(del: boolean) {
+    try {
+        const response = await axios.get(API_URL + `/count/${del}`, {});
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return 0;
+    }
 }
 
 // POST: 새 항목 생성
 
-function post(name:string, description: string) {
-    return axios.post(API_URL, {
-        departName: name,
-        description: description
-    }).then(response => console.log('POST:', response.data))
-        .catch(error => console.error(error));
+async function postDepart(name: string, description: string) {
+    try {
+        const response = await axios.post(API_URL, {
+            departName: name,
+            description: description
+        });
+        return console.log('POST:', response.data);
+    } catch (error) {
+        return console.error(error);
+    }
 }
 
-function patch(departSeq:number, name:string, description:string) {
-    return axios.patch(API_URL, {
-        departSeq: departSeq,
-        departName: name,
-        description: description
-    }).then(response => console.log('POST:', response.data))
-        .catch(error => console.error(error));
+async function patchDepart(departSeq: number, name: string, description: string) {
+    try {
+        const response = await axios.patch(API_URL, {
+            departSeq: departSeq,
+            departName: name,
+            description: description
+        });
+        return console.log('POST:', response.data);
+    } catch (error) {
+        return console.error(error);
+    }
 }
 
-export {get, post, patch, getCount, getCountAll};
+export {getDeparts, postDepart, patchDepart, getCount, getCountAll};
 export type {Depart, PageRequest};
 
 
