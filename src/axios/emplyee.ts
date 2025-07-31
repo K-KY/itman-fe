@@ -29,13 +29,7 @@ async function getEmployees(pageRequest: PageRequest): Promise<{
 
 
 function postEmployees(empInfo: Employee) {
-    const body = {
-        empName: empInfo.empName,
-        departDto: empInfo.departDto,
-        manager: empInfo.manager,
-        del: empInfo.del,
-    }
-    return axios.post(API_URL, body);
+    return axios.post(API_URL, empInfo);
 }
 
 async function count(del: boolean) {
