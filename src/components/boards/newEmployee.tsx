@@ -1,14 +1,18 @@
 import {useEffect, useState} from "react";
-import {type Depart} from "../../axios/depart.ts"
+import {type Depart, getDeparts} from "../../axios/depart.ts"
 import ImageUploader from "../imageUploader.tsx";
 import {LabelInput} from "../utils/labelInput.tsx";
 import InfiniteDropdown from "../dropDown.tsx";
 import type {Employee} from "../../interfaces/Employee.ts";
-import {post} from "../../axios/emplyee.ts";
+import {getEmployees, postEmployees} from "../../axios/emplyee.ts";
+import {useNavigate} from "react-router-dom";
 
 
 const NewEmployee = () => {
+    const navigate = useNavigate();
+
     const [selectedDepart, setSelectedDepart] = useState<Depart | null>(null);
+    const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     // const formData = {
     //     name: (e.target as any).name.value,
     //     empNum: (e.target as any).empNum.value,
@@ -45,15 +49,6 @@ const NewEmployee = () => {
         console.log(empInfo)
     };
 
-    const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {id, value} = e.target;
-        setEmpInfo(prev => ({
-            ...prev,
-            [id]: value
-        }));
-        console.log(empInfo)
-    };
-
     const handleFileChange = (file: File | null) => {
         setEmpInfo((prev) => ({
             ...prev,
@@ -66,12 +61,19 @@ const NewEmployee = () => {
             ...prev,
             departDto: selectedDepart
         }))
-    },[selectedDepart])
+    }, [selectedDepart])
+
+    useEffect(() => {
+        setEmpInfo(prev => ({
+            ...prev,
+            manager: selectedEmployee
+        }))
+    },[selectedEmployee])
 
 
     const handleSubmit = () => {
-        post(empInfo)
-        console.log(empInfo)
+        postEmployees(empInfo)
+        navigate('/employees');
     }
 
     return (
@@ -129,14 +131,26 @@ const NewEmployee = () => {
 
                         <div className={"p-4 space-y-6border-2 rounded-lg shadow-sm"}>
                             <div className="space-y-4">
-                                {/* 전부 부서, 담당자, 직무, 직책, 재직상태는 외래키로 연결 되어야함
-                                토글 무한 스크롤, 검색으로 변경 */}
                                 <InfiniteDropdown
                                     value={selectedDepart}
-                                    onChange={(newDepart) => setSelectedDepart(newDepart)}
+                                    onChange={setSelectedDepart}
+                                    fetchItems={(pageRequest) => getDeparts(pageRequest)
+                                        .then(res => res.content)}
                                     label="부서 선택"
+                                    displayKey="departName"
+                                    keyField="departSeq"
                                 />
-                                <LabelInput id={"name"} type={"text"} text={"담당자"} required={false}/>
+
+                                <InfiniteDropdown
+                                    value={selectedEmployee}
+                                    onChange={setSelectedEmployee}
+                                    fetchItems={(pageRequest) => getEmployees(pageRequest)
+                                        .then(res => res.content)}
+                                        label="담당자 선택"
+                                    displayKey="empName"
+                                    keyField="manager"
+                                />
+
                                 <LabelInput id={"name"} type={"text"} text={"직무"} required={false}/>
                                 <LabelInput id={"name"} type={"text"} text={"직책"} required={false}/>
                                 <LabelInput id={"name"} type={"text"} text={"입사일"} required={false}/>
@@ -148,9 +162,7 @@ const NewEmployee = () => {
 
                     </div>
                 </div>
-                <button   onClick={() => handleSubmit()}
-                          >추가</button>
-
+                <button onClick={() => handleSubmit()}>추가</button>
             </form>
         </div>
     )
