@@ -1,4 +1,4 @@
-import {type PageRequest, get, getCountAll, getCount, type Depart} from "../../axios/depart.ts";
+import {type PageRequest, getDeparts, getCountAll, getCount, type Depart} from "../../axios/depart.ts";
 import {useEffect, useState} from "react";
 import DepartItem from "./departBoardItem.tsx";
 import {useSearchParams} from "react-router-dom";
@@ -32,7 +32,7 @@ const DepartBoard = () => {
 
 
     const getPages = (pageRequest: PageRequest) => {
-        return get(pageRequest)
+        return getDeparts(pageRequest)
             .then(data => {
                 setData(data.content);
                 setTotalPage(data.totalPages);
