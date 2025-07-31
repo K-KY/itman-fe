@@ -5,7 +5,6 @@ interface Employee {
     empSeq: number | null,
     empName: string,
     empNum: string,
-    enoNumber: string,
     empEmail: string,
     empPhone: string,
     departDto: Depart | null,
