@@ -27,7 +27,6 @@ const NewEmployee = () => {
         empSeq: null,
         empName: '',
         empNum: '',
-        enoNumber: '',
         empEmail: '',
         empPhone: '',
         departDto: selectedDepart,
@@ -148,13 +147,13 @@ const NewEmployee = () => {
                                         .then(res => res.content)}
                                         label="담당자 선택"
                                     displayKey="empName"
-                                    keyField="manager"
+                                    keyField="empSeq"
                                 />
 
-                                <LabelInput id={"name"} type={"text"} text={"직무"} required={false}/>
-                                <LabelInput id={"name"} type={"text"} text={"직책"} required={false}/>
-                                <LabelInput id={"name"} type={"text"} text={"입사일"} required={false}/>
-                                <LabelInput id={"name"} type={"text"} text={"재직상태"} required={false}/>
+                                <LabelInput id={"job"} type={"text"} text={"직무"} required={false}/>
+                                <LabelInput id={"position"} type={"text"} text={"직책"} required={false}/>
+                                <LabelInput id={"hired"} type={"text"} text={"입사일"} required={false}/>
+                                <LabelInput id={"state"} type={"text"} text={"재직상태"} required={false}/>
                             </div>
 
                         </div>
