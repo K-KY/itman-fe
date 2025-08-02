@@ -7,6 +7,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {AssetBoard, DepartBoard} from "./components/boards/departBoards.tsx";
 import EmployeeBoard from "./components/boards/employeeBoards.tsx";
 import NewEmployee from "./components/boards/newEmployee.tsx";
+import Login from "./components/login.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route path="/employees" element={<EmployeeBoard />} />
                             <Route path="/assets" element={<AssetBoard />} />
                             <Route path="/employees/new" element={<NewEmployee />} />
+                            <Route path="/login" element={<Login/>} />
                         </Routes>
                     </div>
                 </div>
