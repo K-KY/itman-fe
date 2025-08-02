@@ -29,7 +29,7 @@ async function getEmployees(pageRequest: PageRequest): Promise<{
 
 
 function postEmployees(empInfo: Employee) {
-    return axios.post(API_URL, empInfo);
+    return axios.post(API_URL, empInfo,{withCredentials: true});
 }
 
 async function count(del: boolean) {
