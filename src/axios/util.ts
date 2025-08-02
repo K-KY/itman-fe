@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function getCountAll(url: string) {
     try {
-        const response = await axios.get(url + "/count", {});
+        const response = await axios.get(url + "/count", {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ async function getCountAll(url: string) {
 
 async function getCount(url: string, del: boolean) {
     try {
-        const response = await axios.get(url + `/count/${del}`, {});
+        const response = await axios.get(url + `/count/${del}`, {withCredentials: true},);
         return response.data;
     } catch (error) {
         console.error(error);

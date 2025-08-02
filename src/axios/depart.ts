@@ -28,7 +28,7 @@ async function getDeparts(pageRequest: PageRequest): Promise<{
 
 async function getCountAll() {
     try {
-        const response = await axios.get(API_URL + "/count", {});
+        const response = await axios.get(API_URL + "/count", {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -38,7 +38,7 @@ async function getCountAll() {
 
 async function getCount(del: boolean) {
     try {
-        const response = await axios.get(API_URL + `/count/${del}`, {});
+        const response = await axios.get(API_URL + `/count/${del}`, {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -53,7 +53,7 @@ async function postDepart(name: string, description: string) {
         const response = await axios.post(API_URL, {
             departName: name,
             description: description
-        });
+        }, {withCredentials: true});
         return console.log('POST:', response.data);
     } catch (error) {
         return console.error(error);
@@ -66,7 +66,7 @@ async function patchDepart(departSeq: number, name: string, description: string)
             departSeq: departSeq,
             departName: name,
             description: description
-        });
+        }, {withCredentials: true});
         return console.log('POST:', response.data);
     } catch (error) {
         return console.error(error);
