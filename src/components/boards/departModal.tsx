@@ -19,6 +19,7 @@ const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDes
     const handleSubmit = async () => {
         if (seq == null || currentSeq == null) {
             postItem()
+            location.reload()
             return;
         }
         patchItem()
