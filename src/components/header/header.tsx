@@ -1,4 +1,4 @@
-import {TransitionButton} from "../buttons/transitionButton.tsx";
+import {SimpleButton} from "../buttons/simpleButton.tsx";
 
 const Header = () => {
     return (
@@ -12,8 +12,8 @@ const Header = () => {
                     />
                 </a>
                 <div className="flex items-center justify-center gap-4">
-                    <TransitionButton className={"bg-gray-100 hover:bg-gray-200"} text={"로그인"}/>
-                    <TransitionButton className={"bg-gray-100 hover:bg-gray-200"} text={"회원가입"}/>
+                    <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"로그인"} href={"/login"}/>
+                    <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"회원가입"}/>
                 </div>
             </div>
         </header>
