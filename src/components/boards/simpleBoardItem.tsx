@@ -1,13 +1,15 @@
 import {useState} from "react";
 import SimpleInsertModal from "./simpleModal.tsx";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
+import type {SimpleService} from "../../service/SimpleService.ts";
 
 interface ItemProps {
     item: SimpleBoard;
     boardName: string;
+    service : SimpleService
 }
 
-const SimpleBoardItem = ({item, boardName}: ItemProps) => {
+const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -53,7 +55,7 @@ const SimpleBoardItem = ({item, boardName}: ItemProps) => {
             </div>
             <SimpleInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                                currentSeq={item.seq} currentName={item.name} boardName={boardName}
-                               currentDescription={item.description}/>
+                               currentDescription={item.description} service={service}/>
 
         </li>
     );

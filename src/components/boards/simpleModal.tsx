@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import "../../axios/depart.ts"
-import {postDepart, patchDepart} from "../../axios/depart.ts";
+import type {SimpleService} from "../../service/SimpleService.ts";
 
 type ModalProps = {
     isOpen: boolean,
@@ -9,11 +8,12 @@ type ModalProps = {
     currentName?: string,
     currentDescription?: string,
     boardName: string;
+    service: SimpleService;
     // children: React.ReactNode,
 };
 
 const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
-                               currentDescription, boardName}: ModalProps) => {
+                               currentDescription, boardName, service}: ModalProps) => {
     const [seq, setSeq] = useState<number>()
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -35,7 +35,7 @@ const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
 
     const postItem = () => {
         try {
-            const response = postDepart(name, description);
+            const response = service.post(name, description);
             console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
             window.location.reload();
@@ -51,7 +51,7 @@ const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
             return;
         }
         try {
-            const response = patchDepart(seq, name, description);
+            const response = service.patch(seq, name, description);
             console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
             window.location.reload();

@@ -176,13 +176,13 @@ const SimpleBoards = ({service, boardName}:Props) => {
             <div className="min-h-[400px] flex flex-col justify-between p-3">
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
                     {data.map((item: SimpleBoard) => (
-                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} />
+                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service}/>
                     ))}
                 </ul>
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
             </div>
 
-            <SimpleInsertModal boardName={boardName} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <SimpleInsertModal boardName={boardName} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} service={service} />
 
         </div>
     )
