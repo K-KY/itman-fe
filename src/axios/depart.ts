@@ -1,6 +1,6 @@
 import axios from 'axios'
-import type {Depart} from "../interfaces/Depart.ts";
 import type {PageRequest} from "../interfaces/PageRequest.ts";
+import type {SimpleBoard} from "../interfaces/SimpleBoard.ts";
 
 const API_URL = 'http://localhost:8080/departs';
 
@@ -12,7 +12,7 @@ const empty = {
 
 async function getDeparts(pageRequest: PageRequest): Promise<{
     totalPages: number;
-    content: Depart[]
+    content: SimpleBoard[]
 }> {
     try {
         const response = await axios.get(API_URL, {
@@ -51,7 +51,7 @@ async function getCount(del: boolean) {
 async function postDepart(name: string, description: string) {
     try {
         const response = await axios.post(API_URL, {
-            departName: name,
+            name: name,
             description: description
         }, {withCredentials: true});
         return console.log('POST:', response.data);
@@ -63,8 +63,8 @@ async function postDepart(name: string, description: string) {
 async function patchDepart(departSeq: number, name: string, description: string) {
     try {
         const response = await axios.patch(API_URL, {
-            departSeq: departSeq,
-            departName: name,
+            seq: departSeq,
+            name: name,
             description: description
         }, {withCredentials: true});
         return console.log('POST:', response.data);
@@ -74,6 +74,6 @@ async function patchDepart(departSeq: number, name: string, description: string)
 }
 
 export {getDeparts, postDepart, patchDepart, getCount, getCountAll};
-export type {Depart, PageRequest};
+export type {PageRequest};
 
 
