@@ -8,13 +8,21 @@ type ModalProps = {
     currentSeq?: number,
     currentName?: string,
     currentDescription?: string,
+    boardName: string;
     // children: React.ReactNode,
 };
 
-const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDescription}: ModalProps) => {
+const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
+                               currentDescription, boardName}: ModalProps) => {
     const [seq, setSeq] = useState<number>()
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const modalType = () => {
+        if (!currentSeq) {
+            return "추가"
+        }
+        return "수정"
+    }
 
     const handleSubmit = async () => {
         if (seq == null || currentSeq == null) {
@@ -105,11 +113,11 @@ const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDes
                 className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-semibold mb-4">부서 추가</h2>
+                <h2 className="text-xl font-semibold mb-4">{boardName} {modalType()}</h2>
 
                 <input
                     type="text"
-                    placeholder="부서 이름"
+                    placeholder={`${boardName} 이름`}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full p-2 mb-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -142,4 +150,4 @@ const DepartInsertModal = ({isOpen, onClose, currentSeq, currentName, currentDes
     )
 }
 
-export default DepartInsertModal;
+export default SimpleInsertModal;
