@@ -1,11 +1,17 @@
-import {type PageRequest, getDeparts, getCountAll, getCount, type Depart} from "../../axios/depart.ts";
+import {type PageRequest} from "../../interfaces/PageRequest.ts";
 import {useEffect, useState} from "react";
-import DepartItem from "./departBoardItem.tsx";
+import SimpleBoardItem from "./simpleBoardItem.tsx";
 import {useSearchParams} from "react-router-dom";
-import DepartInsertModal from "./departModal.tsx";
+import SimpleInsertModal from "./simpleModal.tsx";
 import PageIndicator from "./pageIndicator.tsx";
+import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
+import type {SimpleService} from "../../service/SimpleService.ts";
 
-const DepartBoard = () => {
+interface Props {
+    boardName : string;
+    service: SimpleService
+}
+const SimpleBoards = ({service, boardName}:Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -18,7 +24,7 @@ const DepartBoard = () => {
     const [totalPage, setTotalPage] = useState(0);
     const [departCount, setDepartCount] = useState(0);
     const [activeCount, setActiveCount] = useState(0);
-    const [data, setData] = useState<Depart[]>([]);
+    const [data, setData] = useState<SimpleBoard[]>([]);
     const [error, setError] = useState(false); // 에러 상태 추가
     const [loading, setLoading] = useState(true); // 로딩 상태도 고려
 
@@ -30,9 +36,8 @@ const DepartBoard = () => {
         setSearchParams({page: String(index)});
     }
 
-
     const getPages = (pageRequest: PageRequest) => {
-        return getDeparts(pageRequest)
+        return service.get(pageRequest)
             .then(data => {
                 setData(data.content);
                 setTotalPage(data.totalPages);
@@ -47,10 +52,10 @@ const DepartBoard = () => {
     useEffect(() => {
         setLoading(true);
         Promise.all([
-            getCountAll()
+            service.getCountAll()
                 .then(setDepartCount)
                 .catch(() => setError(true)),
-            getCount(false)
+            service.getCount(false)
                 .then(setActiveCount)
                 .catch(() => setError(true))
         ]).finally(() => setLoading(false));
@@ -74,7 +79,7 @@ const DepartBoard = () => {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-2">
                 <div className="rounded-lg border ">
                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                        <h3 className="tracking-tight text-sm font-medium">총 부서 수</h3>
+                        <h3 className="tracking-tight text-sm font-medium">총 {boardName} 수</h3>
                         <img src={"/depart_manage.svg"} alt=""/>
                     </div>
                     <div className="p-6 pt-0">
@@ -84,21 +89,21 @@ const DepartBoard = () => {
                 </div>
                 <div className="rounded-lg border ">
                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2"><h3
-                        className="tracking-tight text-sm font-medium">총 인원</h3>
+                        className="tracking-tight text-sm font-medium"></h3>
                         <img src={"/employee_manage.svg"} alt="직원 관리"/>
                     </div>
                     <div className="p-6 pt-0">
-                        <div className="text-2xl font-bold">210명</div>
-                        <p className="text-xs text-muted-foreground">전체 임직원 수</p></div>
+                        <div className="text-2xl font-bold"></div>
+                        <p className="text-xs text-muted-foreground"></p></div>
                 </div>
                 <div className="rounded-lg border ">
                     <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                        <h3 className="tracking-tight text-sm font-medium">평균 부서 규모</h3>
+                        <h3 className="tracking-tight text-sm font-medium"></h3>
                         <img src={"/reports.svg"} alt="reports"/>
                     </div>
                     <div className="p-6 pt-0">
-                        <div className="text-2xl font-bold">19.1명</div>
-                        <p className="text-xs text-muted-foreground">부서당 평균 인원</p></div>
+                        <div className="text-2xl font-bold"></div>
+                        <p className="text-xs text-muted-foreground"></p></div>
                 </div>
                 <div className="rounded-lg border ">
                 </div>
@@ -124,7 +129,7 @@ const DepartBoard = () => {
                                     file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground
                                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
                                     disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10"
-                                    placeholder="부서명, 코드, 부서장으로 검색..." defaultValue={""}/></div>
+                                    placeholder={`${boardName}명, 또는 ${boardName} 번호로 검색`} defaultValue={""}/></div>
                         </div>
                         <button type="button" role="combobox" aria-controls="radix-:rg:" aria-expanded="false"
                                 aria-autocomplete="none" dir="ltr" data-state="closed"
@@ -142,7 +147,10 @@ const DepartBoard = () => {
                         </button>
                         <button type="button" role="combobox" aria-controls="radix-:rh:" aria-expanded="false"
                                 aria-autocomplete="none" dir="ltr" data-state="closed"
-                                className="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&amp;&gt;span]:line-clamp-1 w-32">
+                                className="flex h-10 items-center justify-between rounded-md border border-input
+                                bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground
+                                focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                                disabled:cursor-not-allowed disabled:opacity-50 [&amp;&gt;span]:line-clamp-1 w-32">
                             <span>전체</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -160,21 +168,21 @@ const DepartBoard = () => {
                     onClick={() => setIsModalOpen(true)}
                     className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md shadow"
                 >
-                    + 부서 추가
+                    + {boardName} 추가
                 </button>
             </div>
 
 
             <div className="min-h-[400px] flex flex-col justify-between p-3">
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
-                    {data.map((item: Depart) => (
-                        <DepartItem key={item.departSeq} item={item}/>
+                    {data.map((item: SimpleBoard) => (
+                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} />
                     ))}
                 </ul>
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
             </div>
 
-            <DepartInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <SimpleInsertModal boardName={boardName} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
         </div>
     )
@@ -188,4 +196,4 @@ const AssetBoard = () => {
         </div>
     )
 }
-export {DepartBoard, AssetBoard}
+export {SimpleBoards, AssetBoard}
