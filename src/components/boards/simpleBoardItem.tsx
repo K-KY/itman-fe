@@ -1,22 +1,23 @@
 import {useState} from "react";
-import DepartInsertModal from "./departModal.tsx";
-import type {Depart} from "../../interfaces/Depart.ts";
+import SimpleInsertModal from "./simpleModal.tsx";
+import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 
-interface DepartItemProps {
-    item: Depart;
+interface ItemProps {
+    item: SimpleBoard;
+    boardName: string;
 }
 
-const DepartItem = ({item}: DepartItemProps) => {
+const SimpleBoardItem = ({item, boardName}: ItemProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <li
-            key={item.departSeq}
+            key={item.seq}
             className="relative group flex justify-between hover:bg-gray-50 border-b overflow-hidden"
         >
             <div className="p-4 flex-1">
-                <p className="text-lg font-semibold text-gray-800">{item.departName}</p>
-                <p className="text-sm text-gray-500">부서 번호: {item.departSeq}</p>
+                <p className="text-lg font-semibold text-gray-800">{item.name}</p>
+                <p className="text-sm text-gray-500">{boardName} 번호: {item.seq}</p>
                 <p className="text-sm text-gray-500">설명: {item.description}</p>
                 <p className="text-sm text-gray-400">
                     생성일: {new Date(item.createdDate).toLocaleDateString()} / 수정일:{" "}
@@ -50,12 +51,12 @@ const DepartItem = ({item}: DepartItemProps) => {
                     </button>
                 </div>
             </div>
-            <DepartInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
-                               currentSeq={item.departSeq} currentName={item.departName}
+            <SimpleInsertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+                               currentSeq={item.seq} currentName={item.name} boardName={boardName}
                                currentDescription={item.description}/>
 
         </li>
     );
 };
 
-export default DepartItem;
+export default SimpleBoardItem;
