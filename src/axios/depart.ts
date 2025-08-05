@@ -60,14 +60,14 @@ async function postDepart(name: string, description: string) {
     }
 }
 
-async function patchDepart(departSeq: number, name: string, description: string) {
+async function patchDepart(seq: number, name: string, description: string) {
     try {
         const response = await axios.patch(API_URL, {
-            seq: departSeq,
+            seq: seq,
             name: name,
             description: description
         }, {withCredentials: true});
-        return console.log('POST:', response.data);
+        return console.log('PATCH:', response.data);
     } catch (error) {
         return console.error(error);
     }
