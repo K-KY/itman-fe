@@ -7,12 +7,12 @@ export interface SimpleService {
         content: SimpleBoard[];
     }>;
 
-    getCount(del:boolean): Promise<number>;
+    getCount(del: boolean): Promise<number>;
 
     getCountAll(): Promise<number>;
 
-    post(name: string, description: string): void;
+    post(name: string, description: string): Promise<SimpleBoard>;
 
-    patch(seq: number, name: string, description: string): void;
+    patch(seq: number, name: string, description: string): Promise<SimpleBoard>;
 
 }
