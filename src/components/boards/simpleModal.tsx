@@ -27,31 +27,29 @@ const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
     const handleSubmit = async () => {
         if (seq == null || currentSeq == null) {
             postItem()
-            location.reload()
             return;
         }
         patchItem()
     };
 
-    const postItem = () => {
+    const postItem = async () => {
         try {
-            const response = service.post(name, description);
+            const response = await service.post(name, description); // ✅ await 추가
             console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
-            window.location.reload();
         } catch (error) {
             console.error("저장 실패:", error);
             alert("저장에 실패했습니다.");
         }
     }
 
-    const patchItem = () => {
+    const patchItem = async () => {
         if (!seq) {
             postItem()
             return;
         }
         try {
-            const response = service.patch(seq, name, description);
+            const response = await service.patch(seq, name, description);
             console.log("저장 완료:", response);
             onClose(); // 저장 후 모달 닫기
             window.location.reload();

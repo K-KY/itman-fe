@@ -1,18 +1,21 @@
 import {useEffect, useState} from "react";
-import {type Depart, getDeparts} from "../../axios/depart.ts"
+import {getDeparts} from "../../axios/depart.ts"
 import ImageUploader from "../imageUploader.tsx";
 import {LabelInput} from "../utils/labelInput.tsx";
 import InfiniteDropdown from "../dropDown.tsx";
 import type {Employee} from "../../interfaces/Employee.ts";
 import {getEmployees, postEmployees} from "../../axios/emplyee.ts";
 import {useNavigate} from "react-router-dom";
+import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 
 
 const NewEmployee = () => {
     const navigate = useNavigate();
 
-    const [selectedDepart, setSelectedDepart] = useState<Depart | null>(null);
+    const [selectedDepart, setSelectedDepart] = useState<SimpleBoard | null>(null);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+    //형식이 다르기 때문에 SimpleBoard 사용 불가
+
     // const formData = {
     //     name: (e.target as any).name.value,
     //     empNum: (e.target as any).empNum.value,
@@ -70,8 +73,8 @@ const NewEmployee = () => {
     },[selectedEmployee])
 
 
-    const handleSubmit = () => {
-        postEmployees(empInfo)
+    const handleSubmit = async () => {
+        await postEmployees(empInfo)
         navigate('/employees');
     }
 
@@ -136,8 +139,8 @@ const NewEmployee = () => {
                                     fetchItems={(pageRequest) => getDeparts(pageRequest)
                                         .then(res => res.content)}
                                     label="부서 선택"
-                                    displayKey="departName"
-                                    keyField="departSeq"
+                                    displayKey="name"
+                                    keyField="seq"
                                 />
 
                                 <InfiniteDropdown
