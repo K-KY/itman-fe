@@ -16,7 +16,7 @@ const EmployeeItem = ({item} : EmployeeItemProps) => {
                 </div>
             </td>
             <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-mono">{item.empNum}</td>
-            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{item.departDto?.departName}</td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{item.departDto?.name}</td>
             <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                 <div className="flex items-center gap-1">
                     <img src={"/team_leader.svg"} alt="" />

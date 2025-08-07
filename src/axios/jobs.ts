@@ -54,7 +54,7 @@ async function postJob(name: string, description: string) {
             name: name,
             description: description
         }, {withCredentials: true});
-        return console.log('POST:', response.data);
+        return response.data;
     } catch (error) {
         return console.error(error);
     }
@@ -67,7 +67,8 @@ async function patchJob(seq: number, name: string, description: string) {
             name: name,
             description: description
         }, {withCredentials: true});
-        return console.log('POST:', response.data);
+         console.log('POST:', response.data);
+        return response.data;
     } catch (error) {
         return console.error(error);
     }

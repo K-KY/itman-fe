@@ -68,7 +68,7 @@ async function patchDepart(seq: number, name: string, description: string) {
             name: name,
             description: description
         }, {withCredentials: true});
-        return console.log('PATCH:', response.data);
+        return response.data;
     } catch (error) {
         return console.error(error);
     }

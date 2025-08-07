@@ -1,6 +1,6 @@
 interface Depart {
-    departSeq: number;
-    departName: string;
+    seq: number;
+    name: string;
     description: string;
     del: boolean;
     createdDate: Date;
