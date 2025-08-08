@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import LoginApi from "../axios/login.ts"; // 함수명과 컴포넌트명 충돌 방지
+import LoginApi from "../axios/login.ts";
+import {useNavigate} from "react-router-dom"; // 함수명과 컴포넌트명 충돌 방지
 
 const Login = () => {
+    const navigate = useNavigate();
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
 
@@ -11,6 +13,7 @@ const Login = () => {
             .then((res) => {
                 console.log("로그인 성공", res);
                 alert("로그인 성공");
+                navigate("/");
             })
             .catch((err) => {
                 console.error("로그인 실패", err);
