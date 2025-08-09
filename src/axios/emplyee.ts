@@ -7,8 +7,8 @@ const BASE_URL = 'http://localhost:8080/';
 const API_URL = BASE_URL + 'employees';
 
 const empty = {
-    totalPages : 0,
-    content : []
+    totalPages: 0,
+    content: []
 };
 
 async function getEmployees(pageRequest: PageRequest): Promise<{
@@ -28,8 +28,14 @@ async function getEmployees(pageRequest: PageRequest): Promise<{
 }
 
 
-function postEmployees(empInfo: Employee) {
-    return axios.post(API_URL, empInfo,{withCredentials: true});
+async function postEmployees(empInfo: Employee) {
+    try {
+        const employee = await axios.post(API_URL, empInfo, {withCredentials: true});
+        return employee.data;
+    } catch (error) {
+        console.error(error);
+        return 0;
+    }
 }
 
 async function count(del: boolean) {
@@ -41,5 +47,5 @@ async function countAll() {
 }
 
 
-export {getEmployees, postEmployees,  count, countAll};
+export {getEmployees, postEmployees, count, countAll};
 
