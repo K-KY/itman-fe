@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {Header} from "./components/header/header.tsx";
 import {SideBar} from "./components/sideBar/sideBar.tsx";
-import {Route, Routes, useNavigate, useSearchParams} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import {AssetBoard, SimpleBoards} from "./components/boards/simpleBoards.tsx";
 import {DepartService} from "./service/DepartService.ts";
 import EmployeeBoard from "./components/boards/employeeBoards.tsx";
