@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import LoginApi from "../axios/login.ts";
-import {useNavigate} from "react-router-dom"; // 함수명과 컴포넌트명 충돌 방지
+import {useNavigate} from "react-router-dom";
+import {authMe} from "../axios/user.ts"; // 함수명과 컴포넌트명 충돌 방지
 
 const Login = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        authMe().then(user => {
+            if (user) {
+                navigate("/");
+            }
+        });
+    }, [navigate]);
 
     function handleLogin(e: React.FormEvent) {
         e.preventDefault(); // form submit 막기
