@@ -7,12 +7,14 @@ import type {Employee} from "../../interfaces/Employee.ts";
 import {getEmployees, postEmployees} from "../../axios/emplyee.ts";
 import {useNavigate} from "react-router-dom";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
+import {getJobs} from "../../axios/jobs.ts";
 
 
 const NewEmployee = () => {
     const navigate = useNavigate();
 
     const [selectedDepart, setSelectedDepart] = useState<SimpleBoard | null>(null);
+    const [selectedJob, setSelectedJob] = useState<SimpleBoard | null>(null)
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     //형식이 다르기 때문에 SimpleBoard 사용 불가
 
@@ -32,7 +34,7 @@ const NewEmployee = () => {
         empNum: '',
         empEmail: '',
         empPhone: '',
-        departDto: selectedDepart,
+        departDto: null,
         manager: null,
         del: false,
         position: null,
@@ -61,16 +63,11 @@ const NewEmployee = () => {
     useEffect(() => {
         setEmpInfo(prev => ({
             ...prev,
+            job: selectedJob,
+            manager: selectedEmployee,
             departDto: selectedDepart
         }))
-    }, [selectedDepart])
-
-    useEffect(() => {
-        setEmpInfo(prev => ({
-            ...prev,
-            manager: selectedEmployee
-        }))
-    },[selectedEmployee])
+    },[selectedJob, selectedEmployee, selectedDepart])
 
 
     const handleSubmit = async () => {
@@ -144,6 +141,17 @@ const NewEmployee = () => {
                                 />
 
                                 <InfiniteDropdown
+                                    value={selectedJob}
+                                    onChange={setSelectedJob}
+                                    fetchItems={(pageRequest) => getJobs(pageRequest)
+                                        .then(res => res.content)}
+                                    label="직무 선택"
+                                    displayKey="name"
+                                    keyField="seq"
+                                />
+
+
+                                <InfiniteDropdown
                                     value={selectedEmployee}
                                     onChange={setSelectedEmployee}
                                     fetchItems={(pageRequest) => getEmployees(pageRequest)
@@ -153,7 +161,6 @@ const NewEmployee = () => {
                                     keyField="empSeq"
                                 />
 
-                                <LabelInput id={"job"} type={"text"} text={"직무"} required={false}/>
                                 <LabelInput id={"position"} type={"text"} text={"직책"} required={false}/>
                                 <LabelInput id={"hired"} type={"text"} text={"입사일"} required={false}/>
                                 <LabelInput id={"state"} type={"text"} text={"재직상태"} required={false}/>
