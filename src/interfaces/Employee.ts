@@ -1,5 +1,6 @@
 import type {Depart} from "./Depart.ts";
 import type {SimpleBoard} from "./SimpleBoard.ts";
+import type {Job} from "./Job.ts";
 
 interface Employee {
     profile: File | null,
@@ -12,7 +13,7 @@ interface Employee {
     manager: Employee | null,
     del: boolean | false,
     position: null,
-    job: null
+    job: Job | SimpleBoard | null,
     hired: null,
     state: null;
     empStatus: null;

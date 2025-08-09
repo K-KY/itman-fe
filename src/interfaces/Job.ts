@@ -1,6 +1,6 @@
 interface Job {
-    jobSeq: number;
-    jobName: string;
+    seq: number;
+    name: string;
     description: string;
     del: boolean;
     createdDate: Date;

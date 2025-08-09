@@ -11,7 +11,7 @@ const EmployeeItem = ({item} : EmployeeItemProps) => {
                 <div className="flex items-center gap-3">
                     <div>
                         <div className="font-medium">{item.empName}</div>
-                        <div className="text-sm text-muted-foreground">{item.job}미구현</div>
+                        <div className="text-sm text-muted-foreground">{item.job?.name}</div>
                     </div>
                 </div>
             </td>
