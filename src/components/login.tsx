@@ -21,7 +21,6 @@ const Login = () => {
         LoginApi(userId, password)
             .then((res) => {
                 console.log("로그인 성공", res);
-                alert("로그인 성공");
                 navigate("/");
             })
             .catch((err) => {
