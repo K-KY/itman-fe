@@ -3,6 +3,7 @@ interface SimpleBoard {
     name: string;
     description: string;
     del: boolean;
+    enabled: boolean;
     createdDate: Date;
     updatedDate: Date;
 }
