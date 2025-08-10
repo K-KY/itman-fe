@@ -1,5 +1,6 @@
-import {getCountAll, getCount, getJobs, type PageRequest, patchJob, postJob} from "../axios/jobs.ts";
+import {getCountAll, getCount, getJobs, type PageRequest, patchJob, patchEnable, postJob} from "../axios/jobs.ts";
 import type {SimpleService} from "./SimpleService.ts";
+import type {SimpleBoard} from "../interfaces/SimpleBoard.ts";
 
 export class JobService implements SimpleService {
     get(pageRequest: PageRequest) {
@@ -20,6 +21,10 @@ export class JobService implements SimpleService {
 
     patch(seq: number, name: string, description: string) {
         return patchJob(seq, name, description);
+    }
+
+    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
+        return patchEnable(seq, enabled);
     }
 
 }

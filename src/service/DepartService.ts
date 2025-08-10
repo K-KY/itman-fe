@@ -1,4 +1,5 @@
-import {getCountAll, getCount, getDeparts, type PageRequest, patchDepart, postDepart} from "../axios/depart.ts";
+import {getCountAll, getCount, getDeparts, type PageRequest, patchDepart, patchEnable, postDepart} from "../axios/depart.ts";
+import type { SimpleBoard } from "../interfaces/SimpleBoard.ts";
 import type {SimpleService} from "./SimpleService.ts";
 
 export class DepartService implements SimpleService {
@@ -20,6 +21,9 @@ export class DepartService implements SimpleService {
 
     patch(seq: number, name: string, description: string) {
         return patchDepart(seq, name, description);
+    }
+    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
+        return patchEnable(seq, enabled);
     }
 
 }
