@@ -74,7 +74,19 @@ async function patchJob(seq: number, name: string, description: string) {
     }
 }
 
-export {getJobs, patchJob, postJob, getCount, getCountAll};
+async function patchEnable(seq: number, enable: boolean) {
+    try {
+        const response = await axios.patch(API_URL+`/enable`, {
+            seq: seq,
+            enabled: enable
+        },  {withCredentials: true});
+        return response.data;
+    } catch (error) {
+        return console.error(error);
+    }
+}
+
+export {getJobs, patchJob, postJob, getCount, patchEnable, getCountAll};
 export type {PageRequest};
 
 
