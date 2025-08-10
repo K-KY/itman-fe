@@ -74,7 +74,19 @@ async function patchDepart(seq: number, name: string, description: string) {
     }
 }
 
-export {getDeparts, postDepart, patchDepart, getCount, getCountAll};
+async function patchEnable(seq: number, enable: boolean) {
+    try {
+        const response = await axios.patch(API_URL+`/enable`, {
+            seq: seq,
+            enabled: enable
+        },  {withCredentials: true});
+        return response.data;
+    } catch (error) {
+        return console.error(error);
+    }
+}
+
+export {getDeparts, postDepart, patchDepart, patchEnable, getCount, getCountAll};
 export type {PageRequest};
 
 
