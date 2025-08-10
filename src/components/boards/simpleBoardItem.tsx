@@ -6,11 +6,12 @@ import type {SimpleService} from "../../service/SimpleService.ts";
 interface ItemProps {
     item: SimpleBoard;
     boardName: string;
-    service : SimpleService
+    service: SimpleService
 }
 
 const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [enabled, setEnabled] = useState(item.enabled)
 
     return (
         <li
@@ -26,17 +27,25 @@ const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
                     {new Date(item.updatedDate).toLocaleDateString()}
                 </p>
 
-                <div className="mt-2">
-                    {item.del ? (
-                        <span className="inline-block px-2 py-1 text-sm font-medium text-red-600 bg-red-100 rounded-md">
-                    삭제됨
-                </span>
-                    ) : (
-                        <span
-                            className="inline-block px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-md">
-                    활성
-                </span>
-                    )}
+
+                <div className="mt-2" onClick={() => {
+                    setEnabled(enabled => !enabled);
+                    service.patchEnable(item.seq, enabled)
+                }}>
+                    <a className={"cursor-pointer"}>
+                        {!enabled ? (
+                            <span className="inline-block px-2 py-1 text-sm font-medium
+                        text-red-600 bg-red-100 rounded-md">
+                        비활성
+                        </span>
+                        ) : (
+                            <span
+                                className="inline-block px-2 py-1 text-sm font-medium
+                            text-green-600 bg-green-100 rounded-md">
+                            활성
+                        </span>
+                        )}
+                    </a>
                 </div>
             </div>
             <div
