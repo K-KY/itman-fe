@@ -10,6 +10,22 @@ const empty = {
     content: []
 };
 
+async function getAllDeparts(pageRequest: PageRequest): Promise<{
+    totalPages: number;
+    content: SimpleBoard[]
+}> {
+    try {
+        const response = await axios.get(API_URL + `/all`, {
+            params: {page: pageRequest.page, size: pageRequest.size},
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return empty;
+    }
+}
+
 async function getDeparts(pageRequest: PageRequest): Promise<{
     totalPages: number;
     content: SimpleBoard[]
@@ -26,9 +42,9 @@ async function getDeparts(pageRequest: PageRequest): Promise<{
     }
 }
 
-async function getCountAll() {
+async function getCountAll(del: boolean) {
     try {
-        const response = await axios.get(API_URL + "/count", {withCredentials: true});
+        const response = await axios.get(API_URL + `/count/${del}`, {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -36,9 +52,9 @@ async function getCountAll() {
     }
 }
 
-async function getCount(del: boolean) {
+async function getCount() {
     try {
-        const response = await axios.get(API_URL + `/count/${del}`, {withCredentials: true});
+        const response = await axios.get(API_URL + `/count`, {withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -86,7 +102,7 @@ async function patchEnable(seq: number, enable: boolean) {
     }
 }
 
-export {getDeparts, postDepart, patchDepart, patchEnable, getCount, getCountAll};
+export {getAllDeparts, getDeparts, postDepart, patchDepart, patchEnable, getCount, getCountAll};
 export type {PageRequest};
 
 
