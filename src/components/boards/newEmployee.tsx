@@ -67,7 +67,7 @@ const NewEmployee = () => {
             manager: selectedEmployee,
             departDto: selectedDepart
         }))
-    },[selectedJob, selectedEmployee, selectedDepart])
+    }, [selectedJob, selectedEmployee, selectedDepart])
 
 
     const handleSubmit = async () => {
@@ -156,7 +156,7 @@ const NewEmployee = () => {
                                     onChange={setSelectedEmployee}
                                     fetchItems={(pageRequest) => getEmployees(pageRequest)
                                         .then(res => res.content)}
-                                        label="담당자 선택"
+                                    label="담당자 선택"
                                     displayKey="empName"
                                     keyField="empSeq"
                                 />
