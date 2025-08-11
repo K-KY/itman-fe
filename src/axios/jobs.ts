@@ -10,6 +10,22 @@ const empty = {
     content: []
 };
 
+async function getAllJobs(pageRequest: PageRequest): Promise<{
+    totalPages: number;
+    content: SimpleBoard[]
+}> {
+    try {
+        const response = await axios.get(API_URL + `/all`, {
+            params: {page: pageRequest.page, size: pageRequest.size},
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return empty;
+    }
+}
+
 async function getJobs(pageRequest: PageRequest): Promise<{
     totalPages: number;
     content: SimpleBoard[]
@@ -26,17 +42,7 @@ async function getJobs(pageRequest: PageRequest): Promise<{
     }
 }
 
-async function getCountAll() {
-    try {
-        const response = await axios.get(API_URL + "/count", {withCredentials: true});
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return 0;
-    }
-}
-
-async function getCount(del: boolean) {
+async function getCountAll(del: boolean) {
     try {
         const response = await axios.get(API_URL + `/count/${del}`, {withCredentials: true});
         return response.data;
@@ -46,8 +52,17 @@ async function getCount(del: boolean) {
     }
 }
 
-// POST: 새 항목 생성
+async function getCount() {
+    try {
+        const response = await axios.get(API_URL + "/count", {withCredentials: true});
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return 0;
+    }
+}
 
+// POST: 새 항목 생성
 async function postJob(name: string, description: string) {
     try {
         const response = await axios.post(API_URL, {
@@ -86,7 +101,7 @@ async function patchEnable(seq: number, enable: boolean) {
     }
 }
 
-export {getJobs, patchJob, postJob, getCount, patchEnable, getCountAll};
+export {getJobs, getAllJobs, patchJob, postJob, getCount, patchEnable, getCountAll};
 export type {PageRequest};
 
 
