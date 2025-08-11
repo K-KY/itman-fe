@@ -1,4 +1,13 @@
-import {getCountAll, getCount, getDeparts, type PageRequest, patchDepart, patchEnable, postDepart} from "../axios/depart.ts";
+import {
+    getCountAll,
+    getCount,
+    getAllDeparts,
+    type PageRequest,
+    patchDepart,
+    patchEnable,
+    postDepart,
+    getDeparts
+} from "../axios/depart.ts";
 import type { SimpleBoard } from "../interfaces/SimpleBoard.ts";
 import type {SimpleService} from "./SimpleService.ts";
 
@@ -7,12 +16,16 @@ export class DepartService implements SimpleService {
         return getDeparts(pageRequest);
     }
 
-    getCount(del:boolean): Promise<number> {
-        return getCount(del);
+    getAll(pageRequest: PageRequest) {
+        return getAllDeparts(pageRequest);
     }
 
-    getCountAll() : Promise<number> {
-        return getCountAll()
+    getCount(): Promise<number> {
+        return getCount();
+    }
+
+    getCountAll(del:boolean) : Promise<number> {
+        return getCountAll(del)
     }
 
     post(name: string, description: string) {

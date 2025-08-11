@@ -7,9 +7,14 @@ export interface SimpleService {
         content: SimpleBoard[];
     }>;
 
-    getCount(del: boolean): Promise<number>;
+    getAll(req: PageRequest): Promise<{
+        totalPages: number;
+        content: SimpleBoard[];
+    }>;
 
-    getCountAll(): Promise<number>;
+    getCount(): Promise<number>;
+
+    getCountAll(del: boolean): Promise<number>;
 
     post(name: string, description: string): Promise<SimpleBoard>;
 

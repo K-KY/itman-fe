@@ -1,4 +1,13 @@
-import {getCountAll, getCount, getJobs, type PageRequest, patchJob, patchEnable, postJob} from "../axios/jobs.ts";
+import {
+    getCountAll,
+    getCount,
+    getJobs,
+    type PageRequest,
+    patchJob,
+    patchEnable,
+    postJob,
+    getAllJobs
+} from "../axios/jobs.ts";
 import type {SimpleService} from "./SimpleService.ts";
 import type {SimpleBoard} from "../interfaces/SimpleBoard.ts";
 
@@ -7,12 +16,16 @@ export class JobService implements SimpleService {
         return getJobs(pageRequest);
     }
 
-    getCount(del:boolean): Promise<number> {
-        return getCount(del);
+    getAll(pageRequest: PageRequest) {
+        return getAllJobs(pageRequest);
     }
 
-    getCountAll() : Promise<number> {
-        return getCountAll()
+    getCount(): Promise<number> {
+        return getCount();
+    }
+
+    getCountAll(del:boolean) : Promise<number> {
+        return getCountAll(del);
     }
 
     post(name: string, description: string) {
