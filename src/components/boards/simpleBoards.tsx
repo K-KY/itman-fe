@@ -37,7 +37,7 @@ const SimpleBoards = ({service, boardName}:Props) => {
     }
 
     const getPages = (pageRequest: PageRequest) => {
-        return service.get(pageRequest)
+        return service.getAll(pageRequest)
             .then(data => {
                 setData(data.content);
                 setTotalPage(data.totalPages);
@@ -48,17 +48,21 @@ const SimpleBoards = ({service, boardName}:Props) => {
             })
     }
 
-
-    useEffect(() => {
-        setLoading(true);
+    const onChange = () => {
         Promise.all([
-            service.getCountAll()
+            service.getCountAll(false)
                 .then(setDepartCount)
                 .catch(() => setError(true)),
-            service.getCount(false)
+            service.getCount()
                 .then(setActiveCount)
                 .catch(() => setError(true))
         ]).finally(() => setLoading(false));
+    }
+
+
+    useEffect(() => {
+        setLoading(true);
+        onChange();
     }, []);
 
     useEffect(() => {
@@ -176,7 +180,7 @@ const SimpleBoards = ({service, boardName}:Props) => {
             <div className="min-h-[400px] flex flex-col justify-between p-3">
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
                     {data.map((item: SimpleBoard) => (
-                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service}/>
+                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service} onChange={onChange}/>
                     ))}
                 </ul>
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
