@@ -7,9 +7,10 @@ interface ItemProps {
     item: SimpleBoard;
     boardName: string;
     service: SimpleService
+    onChange: () => void;
 }
 
-const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
+const SimpleBoardItem = ({item, boardName, service, onChange}: ItemProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [enabled, setEnabled] = useState(item.enabled)
 
@@ -30,7 +31,9 @@ const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
 
                 <div className="mt-2" onClick={() => {
                     setEnabled(enabled => !enabled);
-                    service.patchEnable(item.seq, enabled)
+                    service.patchEnable(item.seq, enabled).then(() => {
+                        onChange();
+                    })
                 }}>
                     <a className={"cursor-pointer"}>
                         {!enabled ? (
@@ -53,7 +56,7 @@ const SimpleBoardItem = ({item, boardName, service}: ItemProps) => {
                 group-hover:translate-x-0 transition-transform duration-300 h-full flex-col"
             >
                 <div className="flex h-full">
-                    <button onClick={() => setIsModalOpen(true)}
+                    <button onClick={() => {setIsModalOpen(true)}}
                             className="px-4 py-2  text-sm font-medium text-white bg-blue-500 hover:bg-blue-600">
                         수정
                     </button>
