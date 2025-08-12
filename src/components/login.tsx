@@ -11,7 +11,7 @@ const Login = () => {
     useEffect(() => {
         authMe().then(user => {
             if (user) {
-                navigate("/");
+                navigate("/group");
             }
         });
     }, [navigate]);
@@ -21,7 +21,7 @@ const Login = () => {
         LoginApi(userId, password)
             .then((res) => {
                 console.log("로그인 성공", res);
-                navigate("/");
+                navigate("/group");
             })
             .catch((err) => {
                 console.error("로그인 실패", err);
