@@ -1,17 +1,23 @@
 import {type PageRequest} from "../../interfaces/PageRequest.ts";
 import {useEffect, useState} from "react";
 import SimpleBoardItem from "./simpleBoardItem.tsx";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import SimpleInsertModal from "./simpleModal.tsx";
 import PageIndicator from "./pageIndicator.tsx";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 import type {SimpleService} from "../../service/SimpleService.ts";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 interface Props {
-    boardName : string;
+    boardName: string;
     service: SimpleService
 }
-const SimpleBoards = ({service, boardName}:Props) => {
+
+const SimpleBoards = ({service, boardName}: Props) => {
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+
+    const navigate = useNavigate();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -37,7 +43,7 @@ const SimpleBoards = ({service, boardName}:Props) => {
     }
 
     const getPages = (pageRequest: PageRequest) => {
-        return service.getAll(pageRequest)
+        return service.getAll(pageRequest, selectedGroup)
             .then(data => {
                 setData(data.content);
                 setTotalPage(data.totalPages);
@@ -61,6 +67,10 @@ const SimpleBoards = ({service, boardName}:Props) => {
 
 
     useEffect(() => {
+        if (selectedGroup === 0 || null) {
+            navigate("/group");
+        }
+
         setLoading(true);
         onChange();
     }, []);
@@ -180,13 +190,15 @@ const SimpleBoards = ({service, boardName}:Props) => {
             <div className="min-h-[400px] flex flex-col justify-between p-3">
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
                     {data.map((item: SimpleBoard) => (
-                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service} onChange={onChange}/>
+                        <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service}
+                                         onChange={onChange}/>
                     ))}
                 </ul>
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
             </div>
 
-            <SimpleInsertModal boardName={boardName} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} service={service} />
+            <SimpleInsertModal boardName={boardName} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+                               service={service}/>
 
         </div>
     )
