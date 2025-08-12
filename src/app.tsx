@@ -1,5 +1,4 @@
 import {useEffect} from "react";
-import {Header} from "./components/header/header.tsx";
 import {SideBar} from "./components/sideBar/sideBar.tsx";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {AssetBoard, SimpleBoards} from "./components/boards/simpleBoards.tsx";
@@ -23,7 +22,6 @@ export const App = () => {
 
     return (
         <div className="flex flex-col h-screen">
-            <Header />
             <div className="flex flex-1 overflow-hidden">
                 <SideBar />
                 <div className="flex-1 overflow-y-auto">

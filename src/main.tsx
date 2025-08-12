@@ -5,16 +5,23 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {RegisterComplete} from "./Register.tsx";
 import {App} from "./app.tsx";
 import Login from "./components/login.tsx";
+import GroupBoard from "./components/boards/groupBoard.tsx";
+import {Header} from "./components/header/header.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <div>
-                <Routes>
-                    <Route path="/signup" element={<RegisterComplete />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/*" element={<App />} />
-                </Routes>
+
+            <Header />
+            <div className="flex flex-1 overflow-hidden">
+                <div className="flex-1 overflow-y-auto">
+                    <Routes>
+                        <Route path="/signup" element={<RegisterComplete />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/*" element={<App />} />
+                        <Route path={"/group"} element={<GroupBoard/>}/>
+                    </Routes>
+                </div>
             </div>
         </BrowserRouter>
     </StrictMode>
