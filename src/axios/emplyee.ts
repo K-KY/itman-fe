@@ -11,13 +11,13 @@ const empty = {
     content: []
 };
 
-async function getEmployees(pageRequest: PageRequest): Promise<{
+async function getEmployees(pageRequest: PageRequest, group:number|null): Promise<{
     totalPages: number;
     content: Employee[]
 }> {
     try {
         const response = await axios.get(API_URL, {
-            params: {page: pageRequest.page, size: pageRequest.size},
+            params: {page: pageRequest.page, size: pageRequest.size, groupSeq: group},
             withCredentials: true
         });
         return response.data;

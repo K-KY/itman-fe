@@ -16,8 +16,9 @@ export class DepartService implements SimpleService {
         return getDeparts(pageRequest);
     }
 
-    getAll(pageRequest: PageRequest) {
-        return getAllDeparts(pageRequest);
+    getAll(pageRequest: PageRequest, group:number) {
+
+        return getAllDeparts(pageRequest, group);
     }
 
     getCount(): Promise<number> {
@@ -35,6 +36,7 @@ export class DepartService implements SimpleService {
     patch(seq: number, name: string, description: string) {
         return patchDepart(seq, name, description);
     }
+
     patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
         return patchEnable(seq, enabled);
     }

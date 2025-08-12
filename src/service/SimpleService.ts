@@ -7,7 +7,7 @@ export interface SimpleService {
         content: SimpleBoard[];
     }>;
 
-    getAll(req: PageRequest): Promise<{
+    getAll(req: PageRequest, selectedGroup:number|null): Promise<{
         totalPages: number;
         content: SimpleBoard[];
     }>;

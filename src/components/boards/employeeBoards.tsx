@@ -5,8 +5,11 @@ import type {Employee} from "../../interfaces/Employee.ts";
 import type {PageRequest} from "../../interfaces/PageRequest.ts";
 import {useSearchParams} from "react-router-dom";
 import PageIndicator from "./pageIndicator.tsx";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 const EmployeeBoard = () => {
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+
     const headers = ["직원", "사번", "부서", "직책", "연락처", "입사일", "상태", "담당자"]
     const tableHeader = useRef<string[]>(headers)
 
@@ -31,7 +34,7 @@ const EmployeeBoard = () => {
     }
 
     const getPages = (pageRequest: PageRequest) => {
-        return getEmployees(pageRequest)
+        return getEmployees(pageRequest, selectedGroup)
             .then(data => {
                 setEmployees(data.content);
                 setTotalPage(data.totalPages);

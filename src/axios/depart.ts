@@ -10,13 +10,13 @@ const empty = {
     content: []
 };
 
-async function getAllDeparts(pageRequest: PageRequest): Promise<{
+async function getAllDeparts(pageRequest: PageRequest, group:number): Promise<{
     totalPages: number;
     content: SimpleBoard[]
 }> {
     try {
         const response = await axios.get(API_URL + `/all`, {
-            params: {page: pageRequest.page, size: pageRequest.size},
+            params: {page: pageRequest.page, size: pageRequest.size,  groupSeq: group},
             withCredentials: true
         });
         return response.data;
