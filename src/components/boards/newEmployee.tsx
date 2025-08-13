@@ -75,9 +75,13 @@ const NewEmployee = () => {
 
 
     const handleSubmit = async () => {
-        await postEmployees(empInfo)
-        navigate('/employees');
-    }
+        try {
+            await postEmployees(empInfo);
+            navigate('../employees');
+        } catch (error) {
+            console.error("postEmployees failed:", error);
+        }
+    };
 
     return (
         <div>
