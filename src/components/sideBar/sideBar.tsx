@@ -12,7 +12,7 @@ const SideBar = () => {
                     <SideBarItems src={"/asset_manage.svg"} url={"/assets"} text={"자산 관리"}></SideBarItems>
                     <SideBarItems src={"/employee_manage.svg"} url={"/employees"} text={"직원 관리"}></SideBarItems>
                     <SideBarItems src={"/depart_manage.svg"} url={"/departs"} text={"부서 관리"}></SideBarItems>
-                    <SideBarItems src={"/position.svg"} url={"/positions"} text={"직급 관리"}></SideBarItems>
+                    <SideBarItems src={"/position.svg"} url={"/positions"} text={"직위 관리"}></SideBarItems>
                     <SideBarItems src={"/jobs.svg"} url={"/jobs"} text={"직무 관리"}></SideBarItems>
                     <SideBarItems src={"/contractor_manage.svg"} url={"/contractors"} text={"구매처 관리"}></SideBarItems>
                     <SideBarItems src={"/location.svg"} url={"/location"} text={"위치 관리"}></SideBarItems>
