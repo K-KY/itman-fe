@@ -28,12 +28,12 @@ export class JobService implements SimpleService {
         return getCountAll(del, group);
     }
 
-    post(name: string, description: string) {
-        return postJob(name, description);
+    post(name: string, description: string, group:number) {
+        return postJob(name, description, group);
     }
 
-    patch(seq: number, name: string, description: string) {
-        return patchJob(seq, name, description);
+    patch(seq: number, name: string, description: string,  group:number|null): Promise<SimpleBoard|void> {
+        return patchJob(seq, name, description, group);
     }
 
     patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {

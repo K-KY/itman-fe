@@ -18,7 +18,7 @@ export interface SimpleService {
 
     post(name: string, description: string, group:number|null): Promise<SimpleBoard|null>;
 
-    patch(seq: number, name: string, description: string): Promise<SimpleBoard>;
+    patch(seq: number, name: string, description: string, group:number|null): Promise<SimpleBoard|void>;
 
     patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard>;
 

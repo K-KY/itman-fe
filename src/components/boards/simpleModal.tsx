@@ -53,7 +53,7 @@ const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
             return;
         }
         try {
-            const response = service.patch(seq, name, description);
+            const response = service.patch(seq, name, description,  selectedGroup);
             console.log("저장 완료:", response);
         } catch (error) {
             console.error("저장 실패:", error);
