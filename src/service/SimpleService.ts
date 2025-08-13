@@ -12,9 +12,9 @@ export interface SimpleService {
         content: SimpleBoard[];
     }>;
 
-    getCount(): Promise<number>;
+    getCount(group:number|null): Promise<number>;
 
-    getCountAll(del: boolean): Promise<number>;
+    getCountAll(del: boolean, group:number|null): Promise<number>;
 
     post(name: string, description: string, group:number|null): Promise<SimpleBoard|null>;
 

@@ -56,10 +56,10 @@ const SimpleBoards = ({service, boardName}: Props) => {
 
     const onChange = () => {
         Promise.all([
-            service.getCountAll(false)
+            service.getCountAll(false, selectedGroup)
                 .then(setDepartCount)
                 .catch(() => setError(true)),
-            service.getCount()
+            service.getCount(selectedGroup)
                 .then(setActiveCount)
                 .catch(() => setError(true))
         ]).finally(() => setLoading(false));

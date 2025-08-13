@@ -21,12 +21,12 @@ export class DepartService implements SimpleService {
         return getAllDeparts(pageRequest, group);
     }
 
-    getCount(): Promise<number> {
-        return getCount();
+    getCount(group:number|null): Promise<number> {
+        return getCount(group);
     }
 
-    getCountAll(del:boolean) : Promise<number> {
-        return getCountAll(del)
+    getCountAll(del:boolean, group:number|null) : Promise<number> {
+        return getCountAll(del, group)
     }
 
     post(name: string, description: string, group:number) {
