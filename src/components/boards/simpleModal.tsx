@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {SimpleService} from "../../service/SimpleService.ts";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 type ModalProps = {
     isOpen: boolean,
@@ -14,6 +15,8 @@ type ModalProps = {
 
 const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
                                currentDescription, boardName, service}: ModalProps) => {
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+
     const [seq, setSeq] = useState<number>()
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -36,7 +39,7 @@ const SimpleInsertModal = ({isOpen, onClose, currentSeq, currentName,
 
     const postItem = async () => {
         try {
-            const response = await service.post(name, description); // ✅ await 추가
+            const response = await service.post(name, description, selectedGroup); // ✅ await 추가
             console.log("저장 완료:", response);
         } catch (error) {
             console.error("저장 실패:", error);
