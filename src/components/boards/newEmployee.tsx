@@ -41,6 +41,7 @@ const NewEmployee = () => {
         manager: null,
         del: false,
         position: null,
+        groupSeq:selectedGroup,
         job: null,
         hired: null,
         state: null,

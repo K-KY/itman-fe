@@ -14,6 +14,7 @@ interface Employee {
     del: boolean | false,
     position: null,
     job: Job | SimpleBoard | null,
+    groupSeq:number | null,
     hired: null,
     state: null;
     empStatus: null;
