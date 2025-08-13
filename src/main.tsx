@@ -12,9 +12,9 @@ createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
 
-            <Header />
-            <div className="flex flex-1 overflow-hidden">
-                <div className="flex-1 overflow-y-auto">
+            <div className="flex flex-col h-screen overflow-hidden">
+                <Header />
+                <div className="flex flex-1 overflow-y-auto">
                     <Routes>
                         <Route path="/signup" element={<RegisterComplete />} />
                         <Route path="/login" element={<Login />} />
