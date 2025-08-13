@@ -26,13 +26,13 @@ async function getAllDeparts(pageRequest: PageRequest, group:number): Promise<{
     }
 }
 
-async function getDeparts(pageRequest: PageRequest): Promise<{
+async function getDeparts(pageRequest: PageRequest, group:number|null): Promise<{
     totalPages: number;
     content: SimpleBoard[]
 }> {
     try {
         const response = await axios.get(API_URL, {
-            params: {page: pageRequest.page, size: pageRequest.size},
+            params: {page: pageRequest.page, size: pageRequest.size, groupSeq: group},
             withCredentials: true
         });
         return response.data;
@@ -64,16 +64,18 @@ async function getCount() {
 
 // POST: 새 항목 생성
 
-async function postDepart(name: string, description: string) {
+async function postDepart(name: string, description: string, group:number|null): Promise<SimpleBoard|null> {
     try {
         const response = await axios.post(API_URL, {
             name: name,
-            description: description
+            description: description,
+            groupSeq: group,
         }, {withCredentials: true});
         console.log('POST:', response.data)
         return response.data;
     } catch (error) {
-        return console.error(error);
+        console.error(error);
+        return null
     }
 }
 
