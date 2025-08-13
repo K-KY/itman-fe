@@ -42,9 +42,11 @@ async function getJobs(pageRequest: PageRequest, group:number|null): Promise<{
     }
 }
 
-async function getCountAll(del: boolean) {
+async function getCountAll(del: boolean, group:number|null) {
     try {
-        const response = await axios.get(API_URL + `/count/${del}`, {withCredentials: true});
+        const response = await axios.get(API_URL + `/count/${del}`, {
+            params: {groupSeq: group},
+            withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);
@@ -52,9 +54,11 @@ async function getCountAll(del: boolean) {
     }
 }
 
-async function getCount() {
+async function getCount(group:number|null) {
     try {
-        const response = await axios.get(API_URL + "/count", {withCredentials: true});
+        const response = await axios.get(API_URL + "/count", {
+            params: {groupSeq: group},
+            withCredentials: true});
         return response.data;
     } catch (error) {
         console.error(error);

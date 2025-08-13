@@ -20,12 +20,12 @@ export class JobService implements SimpleService {
         return getAllJobs(pageRequest, group);
     }
 
-    getCount(): Promise<number> {
-        return getCount();
+    getCount(group:number): Promise<number> {
+        return getCount(group);
     }
 
-    getCountAll(del:boolean) : Promise<number> {
-        return getCountAll(del);
+    getCountAll(del:boolean, group:number) : Promise<number> {
+        return getCountAll(del, group);
     }
 
     post(name: string, description: string) {
