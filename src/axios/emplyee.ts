@@ -38,12 +38,12 @@ async function postEmployees(empInfo: Employee) {
     }
 }
 
-async function count(del: boolean) {
-    return await getCount(API_URL, del);
+async function count(del: boolean, group:number|null): Promise<number> {
+    return await getCount(API_URL, del, group);
 }
 
-async function countAll() {
-    return await getCountAll(API_URL);
+async function countAll(group:number|null): Promise<number> {
+    return await getCountAll(API_URL, group);
 }
 
 

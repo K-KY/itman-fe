@@ -15,7 +15,7 @@ const EmployeeBoard = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalPage, setTotalPage] = useState(0);
-    const [itemCount, setItemCount] = useState();
+    const [itemCount, setItemCount] = useState(0);
     const [loading, setLoading] = useState(true); // 로딩 상태도 고려
 
     const currentPage = Number(searchParams.get("page") || 1); // 기본 1페이지
@@ -48,7 +48,7 @@ const EmployeeBoard = () => {
     }
 
     useEffect(() => {
-        countAll()
+        countAll(selectedGroup)
             .then(res => {
                 setItemCount(res)
             })
