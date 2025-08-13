@@ -12,8 +12,8 @@ import type { SimpleBoard } from "../interfaces/SimpleBoard.ts";
 import type {SimpleService} from "./SimpleService.ts";
 
 export class DepartService implements SimpleService {
-    get(pageRequest: PageRequest) {
-        return getDeparts(pageRequest);
+    get(pageRequest: PageRequest, group:number) {
+        return getDeparts(pageRequest, group);
     }
 
     getAll(pageRequest: PageRequest, group:number) {
@@ -29,8 +29,8 @@ export class DepartService implements SimpleService {
         return getCountAll(del)
     }
 
-    post(name: string, description: string) {
-        return postDepart(name, description);
+    post(name: string, description: string, group:number) {
+        return postDepart(name, description, group);
     }
 
     patch(seq: number, name: string, description: string) {

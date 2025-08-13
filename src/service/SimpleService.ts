@@ -2,7 +2,7 @@ import type {SimpleBoard} from "../interfaces/SimpleBoard.ts";
 import type {PageRequest} from "../interfaces/PageRequest.ts";
 
 export interface SimpleService {
-    get(req: PageRequest): Promise<{
+    get(req: PageRequest, selectedGroup:number): Promise<{
         totalPages: number;
         content: SimpleBoard[];
     }>;
@@ -16,7 +16,7 @@ export interface SimpleService {
 
     getCountAll(del: boolean): Promise<number>;
 
-    post(name: string, description: string): Promise<SimpleBoard>;
+    post(name: string, description: string, group:number|null): Promise<SimpleBoard|null>;
 
     patch(seq: number, name: string, description: string): Promise<SimpleBoard>;
 
