@@ -8,6 +8,7 @@ import {JobService} from "./service/JobService.ts";
 import NewEmployee from "./components/boards/newEmployee.tsx";
 import Login from "./components/login.tsx";
 import {authMe} from "./axios/user.ts";
+import {PositionService} from "./service/PositionService.ts";
 
 export const App = () => {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ export const App = () => {
                         <Route path="/employees" element={<EmployeeBoard />} />
                         <Route path="/assets" element={<AssetBoard />} />
                         <Route path="/jobs" element={<SimpleBoards boardName={"직무"} service={new JobService()} />} />
+                        <Route path="/positions" element={<SimpleBoards boardName={"직위"} service={new PositionService()} />} />
                         <Route path="/employees/new" element={<NewEmployee />} />
                         <Route path="/login" element={<Login/>} />
                     </Routes>
