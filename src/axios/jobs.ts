@@ -10,13 +10,13 @@ const empty = {
     content: []
 };
 
-async function getAllJobs(pageRequest: PageRequest): Promise<{
+async function getAllJobs(pageRequest: PageRequest, group:number|null): Promise<{
     totalPages: number;
     content: SimpleBoard[]
 }> {
     try {
         const response = await axios.get(API_URL + `/all`, {
-            params: {page: pageRequest.page, size: pageRequest.size},
+            params: {page: pageRequest.page, size: pageRequest.size, groupSeq: group},
             withCredentials: true
         });
         return response.data;
@@ -26,13 +26,13 @@ async function getAllJobs(pageRequest: PageRequest): Promise<{
     }
 }
 
-async function getJobs(pageRequest: PageRequest): Promise<{
+async function getJobs(pageRequest: PageRequest, group:number|null): Promise<{
     totalPages: number;
     content: SimpleBoard[]
 }> {
     try {
         const response = await axios.get(API_URL, {
-            params: {page: pageRequest.page, size: pageRequest.size},
+            params: {page: pageRequest.page, size: pageRequest.size, groupSeq: group},
             withCredentials: true
         });
         return response.data;

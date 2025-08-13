@@ -12,12 +12,12 @@ import type {SimpleService} from "./SimpleService.ts";
 import type {SimpleBoard} from "../interfaces/SimpleBoard.ts";
 
 export class JobService implements SimpleService {
-    get(pageRequest: PageRequest) {
-        return getJobs(pageRequest);
+    get(pageRequest: PageRequest, group:number) {
+        return getJobs(pageRequest, group);
     }
 
-    getAll(pageRequest: PageRequest) {
-        return getAllJobs(pageRequest);
+    getAll(pageRequest: PageRequest, group:number) {
+        return getAllJobs(pageRequest, group);
     }
 
     getCount(): Promise<number> {
