@@ -67,11 +67,12 @@ async function getCount(group:number|null) {
 }
 
 // POST: 새 항목 생성
-async function postJob(name: string, description: string) {
+async function postJob(name: string, description: string, group:number) {
     try {
         const response = await axios.post(API_URL, {
             name: name,
-            description: description
+            description: description,
+            groupSeq: group,
         }, {withCredentials: true});
         return response.data;
     } catch (error) {
@@ -79,14 +80,15 @@ async function postJob(name: string, description: string) {
     }
 }
 
-async function patchJob(seq: number, name: string, description: string) {
+async function patchJob(seq: number, name: string, description: string,  group:number|null): Promise<SimpleBoard|void> {
     try {
         const response = await axios.patch(API_URL, {
             seq: seq,
             name: name,
-            description: description
+            description: description,
+            groupSeq: group,
         }, {withCredentials: true});
-         console.log('POST:', response.data);
+         console.log('PATCH:', response.data);
         return response.data;
     } catch (error) {
         return console.error(error);
