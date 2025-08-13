@@ -8,9 +8,12 @@ import {getEmployees, postEmployees} from "../../axios/emplyee.ts";
 import {useNavigate} from "react-router-dom";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 import {getJobs} from "../../axios/jobs.ts";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 
 const NewEmployee = () => {
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+
     const navigate = useNavigate();
 
     const [selectedDepart, setSelectedDepart] = useState<SimpleBoard | null>(null);
@@ -133,7 +136,7 @@ const NewEmployee = () => {
                                 <InfiniteDropdown
                                     value={selectedDepart}
                                     onChange={setSelectedDepart}
-                                    fetchItems={(pageRequest) => getDeparts(pageRequest)
+                                    fetchItems={(pageRequest) => getDeparts(pageRequest, selectedGroup)
                                         .then(res => res.content)}
                                     label="부서 선택"
                                     displayKey="name"
@@ -143,7 +146,7 @@ const NewEmployee = () => {
                                 <InfiniteDropdown
                                     value={selectedJob}
                                     onChange={setSelectedJob}
-                                    fetchItems={(pageRequest) => getJobs(pageRequest)
+                                    fetchItems={(pageRequest) => getJobs(pageRequest, selectedGroup)
                                         .then(res => res.content)}
                                     label="직무 선택"
                                     displayKey="name"
@@ -154,7 +157,7 @@ const NewEmployee = () => {
                                 <InfiniteDropdown
                                     value={selectedEmployee}
                                     onChange={setSelectedEmployee}
-                                    fetchItems={(pageRequest) => getEmployees(pageRequest)
+                                    fetchItems={(pageRequest) => getEmployees(pageRequest, selectedGroup)
                                         .then(res => res.content)}
                                     label="담당자 선택"
                                     displayKey="empName"
