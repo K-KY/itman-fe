@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 import {getJobs} from "../../axios/jobs.ts";
 import {useGroupStore} from "../../store/groupStore.ts";
+import {getPositions} from "../../axios/position.ts";
 
 
 const NewEmployee = () => {
@@ -18,6 +19,7 @@ const NewEmployee = () => {
 
     const [selectedDepart, setSelectedDepart] = useState<SimpleBoard | null>(null);
     const [selectedJob, setSelectedJob] = useState<SimpleBoard | null>(null)
+    const [selectedPosition, setSelectedPosition] = useState<SimpleBoard | null>(null)
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     //형식이 다르기 때문에 SimpleBoard 사용 불가
 
@@ -158,6 +160,17 @@ const NewEmployee = () => {
                                     keyField="seq"
                                 />
 
+                                <InfiniteDropdown
+                                    value={selectedPosition}
+                                    onChange={setSelectedPosition}
+                                    fetchItems={(pageRequest) => getPositions(pageRequest, selectedGroup)
+                                        .then(res => res.content)}
+                                    label="직위 선택"
+                                    displayKey="name"
+                                    keyField="seq"
+                                />
+
+
 
                                 <InfiniteDropdown
                                     value={selectedEmployee}
@@ -169,7 +182,6 @@ const NewEmployee = () => {
                                     keyField="empSeq"
                                 />
 
-                                <LabelInput id={"position"} type={"text"} text={"직책"} required={false}/>
                                 <LabelInput id={"hired"} type={"text"} text={"입사일"} required={false}/>
                                 <LabelInput id={"state"} type={"text"} text={"재직상태"} required={false}/>
                             </div>
