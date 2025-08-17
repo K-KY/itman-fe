@@ -26,12 +26,13 @@ export interface Asset {
     assetSeq?: number|null;                   // DB 생성 PK
     serialNumber?: string;
     assetName?: string;
+    imageUrl:string|null;
     groupSeq: number|null;                    // Required
     location?: string;
     acqDate?: string;                    // ISO String 획득일
     enabled?: boolean;
     del?: boolean;
-    categories?: AssetCategory[]; // 여러 개 가능
+    categories: AssetCategory[]; // 여러 개 가능
     createdDate?: Date;
     updatedDate?: Date;
 }

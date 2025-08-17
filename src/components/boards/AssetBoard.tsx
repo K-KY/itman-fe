@@ -25,12 +25,8 @@ const AssetBoard = () => {
 
     const [pageRequest, setPageRequest] = useState<PageRequest>({
         page: Number(searchParams.get("page")) || currentPage,
-        size:10
+        size: 10
     })
-
-    getAssets(pageRequest, selectedGroup).then(res => {
-        console.log(res);
-    });
 
     const [assets, setAssets] = useState<Asset[]>([])
 
@@ -59,13 +55,13 @@ const AssetBoard = () => {
                 setItemCount(res)
             })
         getPages(pageRequest)
-    },[])
+    }, [])
 
     useEffect(() => {
         getPages(pageRequest);
     }, [pageRequest]);
 
-    const handleAddAsset = (assetData:Asset) => {
+    const handleAddAsset = (assetData: Asset) => {
         console.log('새 자산 데이터:', assetData);
         // 여기서 실제 API 호출이나 상태 업데이트를 수행
         postAsset(assetData);
@@ -85,7 +81,7 @@ const AssetBoard = () => {
                     <h3 className={"tracking-tight text-sm font-medium"}></h3>
                 </div>
                 <div className={"p-6 pt-0"}>
-                    <div className={"text-2xl font-bold"}></div>
+                    <div className={"text-2xl font-bold"}>{itemCount}</div>
                     <p className={"text-xs text"}></p>
                 </div>
             </div>
@@ -171,7 +167,6 @@ const AssetBoard = () => {
         </div>
 
 
-
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
             <div className="p-6 pt-0">
                 <div className="overflow-x-auto">
@@ -181,10 +176,10 @@ const AssetBoard = () => {
                             <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                 {tableHeader.current.map(item =>
                                     <th key={item}
-                                    className="h-12 px-4 text-left align-middle font-medium text-muted-foreground
+                                        className="h-12 px-4 text-left align-middle font-medium text-muted-foreground
                                         [&:has([role=checkbox])]:pr-0">
-                                    {item}
-                                </th>)}
+                                        {item}
+                                    </th>)}
                             </tr>
                             </thead>
                             <tbody className="[&amp;_tr:last-child]:border-0">
@@ -195,7 +190,8 @@ const AssetBoard = () => {
 
                             </tbody>
                         </table>
-                        <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
+                        <PageIndicator totalPage={totalPage} currentPage={currentPage}
+                                       onPageChange={goToPage}></PageIndicator>
 
                     </div>
                 </div>
@@ -209,7 +205,8 @@ const AssetBoard = () => {
     </div>
 }
 
-import { X, Upload } from 'lucide-react';
+import {X, Upload} from 'lucide-react';
+import {getImages, uploadImage} from "../../axios/image.ts";
 
 // 임시 카테고리 데이터 (실제로는 props나 API에서 받아와야 함)
 
@@ -219,26 +216,26 @@ interface AssetItemProps {
     onSubmit: (asset: Asset) => void;
 }
 
-interface FormData {
-    assetSeq: number|null;
-    groupSeq: number|null; // 필수 추가
-    assetName: string;
-    serialNumber: string;
-    location: string;
-    acqDate: string;
-    enabled: boolean;
-    imageUrl: string | ArrayBuffer | null;
-    categories: AssetCategory[];
-}
 
 
-const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
+const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
 
-    console.log(selectedGroup);
-    const [formData, setFormData] = useState<FormData>({
-        assetSeq:null,
-        groupSeq:selectedGroup,
+    const [formData, setFormData] = useState<Asset>({
+        assetSeq: null,
+        groupSeq: selectedGroup,
+        assetName: '',
+        imageUrl: '',
+        serialNumber: '',
+        location: '',
+        acqDate: '',
+        enabled: true,
+        categories: []
+    });
+
+    const emptyFormData = {
+        assetSeq: null,
+        groupSeq: selectedGroup,
         assetName: '',
         serialNumber: '',
         location: '',
@@ -246,53 +243,15 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
         enabled: true,
         imageUrl: '',
         categories: []
-    });
+    }
 
-    console.log(formData);
 
     const mockCategories = [
-        { assetCategorySeq: 1, category: { categorySeq: 1 ,categoryName: 'IT장비', tagColor: '#3b82f6' } },
-        { assetCategorySeq: 2, category: { categorySeq: 2 ,categoryName: '가구', tagColor: '#10b981' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
-        { assetCategorySeq: 3, category: { categorySeq: 7 ,categoryName: '차량', tagColor: '#f59e0b' } },
-        { assetCategorySeq: 4, category: { categorySeq: 8 ,categoryName: '사무용품', tagColor: '#8b5cf6' } },
-        { assetCategorySeq: 5, category: { categorySeq: 11 ,categoryName: '전자제품', tagColor: '#ef4444' } },
+        {assetCategorySeq: 1, category: {categorySeq: 1, categoryName: 'IT장비', tagColor: '#3b82f6'}},
     ];
 
 
-    const [selectedImage, setSelectedImage] = useState<File|null>(null);
+    // const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -321,7 +280,7 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
     //     }));
     // };
     //
-    const handleCategoryToggle = (category:AssetCategory) => {
+    const handleCategoryToggle = (category: AssetCategory) => {
         setFormData(prev => {
             const isSelected = prev.categories.some(c => c.assetCategorySeq === category.assetCategorySeq);
             if (isSelected) {
@@ -338,22 +297,27 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
         });
     };
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        setSelectedImage(file);
+        const uploadedData = await uploadImage(file);// 랜덤 생성된 이미지 아이디
+        setFormData(prev => ({
+            ...prev,
+            imageUrl: uploadedData // FormData 타입과 호환
+        }));
+        const images = await getImages(uploadedData);
+        setPreviewUrl(`data:${images.contentType};base64,${images.image}`);//base64 문자열을 URL로 해석해서 요청을 보내버림
+        //그래서 prefix가 붙은 url 사용
 
-        const reader = new FileReader();
-        reader.onload = () => {
-            const result = reader.result; // string | ArrayBuffer | null
-            setPreviewUrl(result as string); // 미리보기는 문자열로 단언
-            setFormData(prev => ({
-                ...prev,
-                imageUrl: result as string // FormData 타입과 호환
-            }));
-        };
-        reader.readAsDataURL(file);
+        // const reader = new FileReader();
+        // reader.onload = () => {
+        //     const result = reader.result; // string | ArrayBuffer | null
+        //     setPreviewUrl(images.image as string); // 미리보기는 문자열로 단언
+        // };
+        // reader.readAsDataURL(file);
+
+
     };
 
     const handleSubmit = () => {
@@ -363,18 +327,8 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
         }
         onSubmit(formData);
         // 폼 리셋
-        setFormData({
-            assetSeq:null,
-            groupSeq:selectedGroup,
-            assetName: '',
-            serialNumber: '',
-            location: '',
-            acqDate: '',
-            enabled: true,
-            imageUrl: '',
-            categories: []
-        });
-        setSelectedImage(null);
+        setFormData(emptyFormData);
+        // setSelectedImage(null);
         setPreviewUrl('');
     };
 
@@ -390,7 +344,7 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
                         onClick={onClose}
                         className="text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                        <X size={24} />
+                        <X size={24}/>
                     </button>
                 </div>
 
@@ -402,7 +356,8 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
                             자산 이미지
                         </label>
                         <div className="flex items-center gap-4">
-                            <div className="h-20 w-20 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                            <div
+                                className="h-20 w-20 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
                                 {previewUrl ? (
                                     <img
                                         src={previewUrl}
@@ -410,7 +365,7 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
                                         className="h-full w-full object-cover"
                                     />
                                 ) : (
-                                    <Upload className="h-8 w-8 text-gray-400" />
+                                    <Upload className="h-8 w-8 text-gray-400"/>
                                 )}
                             </div>
                             <div>
@@ -425,7 +380,7 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
                                     htmlFor="image-upload"
                                     className="cursor-pointer inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                                 >
-                                    <Upload className="h-4 w-4 mr-2" />
+                                    <Upload className="h-4 w-4 mr-2"/>
                                     이미지 선택
                                 </label>
                                 <p className="text-xs text-gray-500 mt-1">JPG, PNG 파일 지원</p>
@@ -519,7 +474,7 @@ const AddAssetModal = ({ isOpen, onClose, onSubmit } : AssetItemProps) => {
                                                 ? 'text-white border-transparent'
                                                 : 'text-gray-600 border-gray-300 bg-white hover:bg-gray-50'
                                         }`}
-                                        style={isSelected ? { backgroundColor: category.category.tagColor } : {}}
+                                        style={isSelected ? {backgroundColor: category.category.tagColor} : {}}
                                     >
                                         {category.category.categoryName}
                                     </button>
