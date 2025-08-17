@@ -10,9 +10,11 @@ import Login from "./components/login.tsx";
 import {authMe} from "./axios/user.ts";
 import {PositionService} from "./service/PositionService.ts";
 import AssetBoard from "./components/boards/AssetBoard.tsx";
+import {useGroupStore} from "./store/groupStore.ts";
 
 export const App = () => {
     const navigate = useNavigate();
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
 
     useEffect(() => {
         authMe().then(user => {
@@ -20,7 +22,13 @@ export const App = () => {
                 navigate("/login");
             }
         });
+
+        if (selectedGroup === null) {
+            navigate("/group");
+        }
     }, [navigate]);
+
+
 
     return (
         <div className="flex flex-1 overflow-hidden">
