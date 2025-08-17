@@ -203,13 +203,4 @@ const SimpleBoards = ({service, boardName}: Props) => {
         </div>
     )
 }
-
-
-const AssetBoard = () => {
-    return (
-        <div>
-            <h2 className={"text-9xl"}>asset</h2>
-        </div>
-    )
-}
-export {SimpleBoards, AssetBoard}
+export {SimpleBoards}
