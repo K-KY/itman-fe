@@ -110,6 +110,9 @@ type GroupBoardItemProps = {
 };
 
 const GroupBoardItem: React.FC<GroupBoardItemProps> = ({onClick, group}) => {
+    const navigate = useNavigate();
+    const setSelectedGroupSeq = useGroupStore((state) => state.setSelectedGroupSeq);
+
     const [departs, setDeparts] = useState(0)
     const [employees, setEmployees] = useState(0)
     const [assets, setAssets] = useState(0)
@@ -124,6 +127,14 @@ const GroupBoardItem: React.FC<GroupBoardItemProps> = ({onClick, group}) => {
         fetch();
     }, [group.groupSeq]);
 
+    const onIndicatorClick = (groupSeq:number, href:string, e:React.MouseEvent<HTMLParagraphElement>
+    ) => {
+        e.stopPropagation(); // 부모 클릭 막기
+
+        setSelectedGroupSeq(groupSeq);
+        navigate(`/${href}`);
+    }
+
     return (
         <div
             onClick={onClick}
@@ -134,13 +145,25 @@ const GroupBoardItem: React.FC<GroupBoardItemProps> = ({onClick, group}) => {
                 <li>
                     <div className="p-4">
                         <h2 className="text-xl font-semibold mb-2">{group.groupName}</h2>
-                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 rounded-md text-base p-1">
+                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 hover:bg-gray-200 rounded-md text-base p-1"
+                           onClick={(e) => {
+                               onIndicatorClick(group.groupSeq, "departs", e);
+                           }}
+                        >
                             부서 수 : {departs}
                         </p>
-                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 rounded-md text-base p-1">
+                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 hover:bg-gray-200 rounded-md text-base p-1"
+                           onClick={(e) => {
+                               onIndicatorClick(group.groupSeq, "employees", e);
+                           }}
+                        >
                             사원 수 : {employees}
                         </p>
-                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 rounded-md text-base p-1">
+                        <p className="text-gray-700 mb-4 bg-gray-100 line-clamp-3 hover:bg-gray-200 rounded-md text-base p-1"
+                           onClick={(e) => {
+                               onIndicatorClick(group.groupSeq, "assets", e);
+                           }}
+                        >
                             자산 수 : {assets}
                         </p>
 
