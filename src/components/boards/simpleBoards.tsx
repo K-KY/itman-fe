@@ -10,10 +10,11 @@ import {useGroupStore} from "../../store/groupStore.ts";
 
 interface Props {
     boardName: string;
+    boardSubName: string;
     service: SimpleService
 }
 
-const SimpleBoards = ({service, boardName}: Props) => {
+const SimpleBoards = ({service, boardName, boardSubName}: Props) => {
     const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
 
     const navigate = useNavigate();
@@ -191,7 +192,7 @@ const SimpleBoards = ({service, boardName}: Props) => {
                 <ul className="divide-y divide-gray-200 border rounded-lg shadow-sm">
                     {data.map((item: SimpleBoard) => (
                         <SimpleBoardItem key={item.seq} item={item} boardName={boardName} service={service}
-                                         onChange={onChange}/>
+                                         onChange={onChange} subtitle={boardSubName}/>
                     ))}
                 </ul>
                 <PageIndicator totalPage={totalPage} currentPage={currentPage} onPageChange={goToPage}></PageIndicator>
