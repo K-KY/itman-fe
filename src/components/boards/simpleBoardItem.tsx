@@ -2,17 +2,20 @@ import {useState} from "react";
 import SimpleInsertModal from "./simpleModal.tsx";
 import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 import type {SimpleService} from "../../service/SimpleService.ts";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 interface ItemProps {
     item: SimpleBoard;
     boardName: string;
     service: SimpleService
     onChange: () => void;
+    subtitle: string;
 }
 
-const SimpleBoardItem = ({item, boardName, service, onChange}: ItemProps) => {
+const SimpleBoardItem = ({item, boardName, service, onChange, subtitle}: ItemProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [enabled, setEnabled] = useState(item.enabled)
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
 
     return (
         <li
@@ -22,7 +25,7 @@ const SimpleBoardItem = ({item, boardName, service, onChange}: ItemProps) => {
             <div className="p-4 flex-1">
                 <p className="text-lg font-semibold text-gray-800">{item.name}</p>
                 <p className="text-sm text-gray-500">{boardName} 번호: {item.seq}</p>
-                <p className="text-sm text-gray-500">설명: {item.description}</p>
+                <p className="text-sm text-gray-500">{subtitle}: {item.description}</p>
                 <p className="text-sm text-gray-400">
                     생성일: {new Date(item.createdDate).toLocaleDateString()} / 수정일:{" "}
                     {new Date(item.updatedDate).toLocaleDateString()}
@@ -31,7 +34,7 @@ const SimpleBoardItem = ({item, boardName, service, onChange}: ItemProps) => {
 
                 <div className="mt-2" onClick={() => {
                     setEnabled(enabled => !enabled);
-                    service.patchEnable(item.seq, enabled).then(() => {
+                    service.patchEnable(item.seq, selectedGroup, enabled, false).then(() => {
                         onChange();
                     })
                 }}>
