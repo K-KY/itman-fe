@@ -18,8 +18,8 @@ export interface SimpleService {
 
     post(name: string, description: string, group:number|null): Promise<SimpleBoard|null>;
 
-    patch(seq: number, name: string, description: string, group:number|null): Promise<SimpleBoard|void>;
+    patch(seq: number, name: string, description: string, groupSeq:number|null): Promise<SimpleBoard|void>;
 
-    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard>;
+    patchEnable(seq: number, groupSeq:number|null, enabled: boolean, del:boolean): Promise<SimpleBoard>;
 
 }

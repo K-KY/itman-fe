@@ -36,8 +36,8 @@ export class JobService implements SimpleService {
         return patchJob(seq, name, description, group);
     }
 
-    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
-        return patchEnable(seq, enabled);
+    patchEnable(seq: number, groupSeq:number, enabled: boolean, del:boolean): Promise<SimpleBoard> {
+        return patchEnable(seq, groupSeq, enabled, del);
     }
 
 }

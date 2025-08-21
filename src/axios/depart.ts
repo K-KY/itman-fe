@@ -96,11 +96,13 @@ async function patchDepart(seq: number, name: string, description: string) {
     }
 }
 
-async function patchEnable(seq: number, enable: boolean) {
+async function patchEnable(seq: number, groupSeq: number | null, enabled: boolean, del: boolean) {
     try {
         const response = await axios.patch(API_URL+`/enable`, {
             seq: seq,
-            enabled: enable
+            groupSeq: groupSeq,
+            enabled: enabled,
+            del: del,
         },  {withCredentials: true});
         return response.data;
     } catch (error) {

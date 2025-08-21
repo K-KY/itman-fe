@@ -36,8 +36,8 @@ export class CategoryService implements SimpleService {
         return patchCategory(seq, name, description, group);
     }
 
-    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
-        return patchEnable(seq, enabled);
+    patchEnable(seq: number, groupSeq: number, enabled: boolean, del: boolean): Promise<SimpleBoard> {
+        return patchEnable(seq, groupSeq, enabled, del);
     }
 
 }

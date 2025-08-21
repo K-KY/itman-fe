@@ -37,8 +37,8 @@ export class DepartService implements SimpleService {
         return patchDepart(seq, name, description);
     }
 
-    patchEnable(seq: number, enabled: boolean): Promise<SimpleBoard> {
-        return patchEnable(seq, enabled);
+    patchEnable(seq: number, groupSeq: number | null, enabled: boolean, del: boolean): Promise<SimpleBoard> {
+        return patchEnable(seq, groupSeq, enabled, del);
     }
 
 }
