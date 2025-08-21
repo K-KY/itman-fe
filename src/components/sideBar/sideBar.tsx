@@ -16,6 +16,8 @@ const SideBar = () => {
                     <SideBarItems src={"/jobs.svg"} url={"/jobs"} text={"직무 관리"}></SideBarItems>
                     <SideBarItems src={"/contractor_manage.svg"} url={"/contractors"} text={"구매처 관리"}></SideBarItems>
                     <SideBarItems src={"/location.svg"} url={"/location"} text={"위치 관리"}></SideBarItems>
+                    <SideBarItems src={"/asset_manage.svg"} url={"/category"} text={"카테고리 관리"}></SideBarItems>
+                    <SideBarItems src={"/asset_manage.svg"} url={"/state"} text={"상태 관리"}></SideBarItems>
                     <SideBarItems src={"/reports.svg"} url={"/reports"} text={"보고서"}></SideBarItems>
                     <SideBarItems src={"/setting.svg"} url={"/settings"} text={"설정"}></SideBarItems>
                 </nav>
