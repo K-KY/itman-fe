@@ -71,9 +71,10 @@ const NewEmployee = () => {
             ...prev,
             job: selectedJob,
             manager: selectedEmployee,
-            departDto: selectedDepart
+            departDto: selectedDepart,
+            position:selectedPosition
         }))
-    }, [selectedJob, selectedEmployee, selectedDepart])
+    }, [selectedJob, selectedEmployee, selectedDepart, selectedPosition]);
 
 
     const handleSubmit = async () => {

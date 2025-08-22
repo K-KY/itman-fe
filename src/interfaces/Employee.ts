@@ -12,7 +12,7 @@ interface Employee {
     departDto: Depart | SimpleBoard | null,
     manager: Employee | null,
     del: boolean | false,
-    position: null,
+    position: SimpleBoard | null,
     job: Job | SimpleBoard | null,
     groupSeq:number | null,
     hired: null,
