@@ -4,6 +4,7 @@ import type {Job} from "./Job.ts";
 
 interface Employee {
     profile: File | null,
+    imageUrl: string | null,
     empSeq: number | null,
     empName: string,
     empNum: string,

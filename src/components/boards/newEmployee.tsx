@@ -34,6 +34,7 @@ const NewEmployee = () => {
 
     const [empInfo, setEmpInfo] = useState<Employee>({
         profile: null,
+        imageUrl:'',
         empSeq: null,
         empName: '',
         empNum: '',
@@ -59,10 +60,10 @@ const NewEmployee = () => {
         console.log(empInfo)
     };
 
-    const handleFileChange = (file: File | null) => {
+    const handleFileChange = (imageUrl: string) => {
         setEmpInfo((prev) => ({
             ...prev,
-            profile: file,
+            imageUrl: imageUrl,
         }));
     };
 
@@ -96,7 +97,7 @@ const NewEmployee = () => {
                         <h3 className={"p-2 font-bold text-2xl"}>개인 정보</h3>
                         <div className={"border space-y-2"}>
                             <label className={"p-4 font-bold"}>프로필 사진</label>
-                            <ImageUploader onFileChange={(file) => handleFileChange(file)}/>
+                            <ImageUploader onImageUpload={(url:string) => handleFileChange(url)}/>
                         </div>
 
                         <div className={"p-4 space-y-6 border-2 rounded-lg shadow-sm"}>

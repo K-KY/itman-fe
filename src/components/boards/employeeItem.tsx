@@ -1,14 +1,50 @@
 import type {Employee} from "../../interfaces/Employee.ts";
+import {useEffect, useState} from "react";
+import {getImages} from "../../axios/image.ts";
 
 
 interface EmployeeItemProps {
     item: Employee;
 }
+
+
+interface Image {
+    imageSeq: string;
+    fileName: string;
+    contentType: string;
+    image: string;
+}
+
+
 const EmployeeItem = ({item} : EmployeeItemProps) => {
+    const [imageData, setImageData] = useState<Image | null>(null);
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            const res: Image = await getImages(item.imageUrl); // Promise 해제
+            setImageData(res);
+        };
+        fetchImage();
+    }, [item.imageUrl]);
+
+    const imageUrl = imageData
+        ? `data:${imageData.contentType};base64,${imageData.image}`
+        : "/itman_header_logo.png";
+
+
     return (
         <tr className="border-b transition-colors data-[state=selected]:bg-muted cursor-pointer hover:bg-muted/50">
             <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+
                 <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                        <img
+                            src={imageUrl}
+                            alt={item.empName}
+                            className="h-full w-full object-cover"
+                        />
+                    </div>
+
                     <div>
                         <div className="font-medium">{item.empName}</div>
                         <div className="text-sm text-muted-foreground">{item.job?.name}</div>
