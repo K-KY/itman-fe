@@ -158,7 +158,14 @@ const AssetBoard = () => {
         </div>
         <div className="flex justify-end px-6 mb-2">
             <a
-                className="bg-green-500 hover:bg-green-600
+                className="bg-green-500 hover:bg-green-600 mr-4
+                    text-white text-sm font-medium py-2 px-4 rounded-md shadow"
+                onClick={() => console.log(true)}
+            >
+                카테고리 추가
+            </a>
+            <a
+                className="bg-green-500 hover:bg-green-600 ml-4
                     text-white text-sm font-medium py-2 px-4 rounded-md shadow"
                 onClick={() => setIsModalOpen(true)}
             >
@@ -207,6 +214,8 @@ const AssetBoard = () => {
 
 import {X, Upload} from 'lucide-react';
 import {getImages, uploadImage} from "../../axios/image.ts";
+import {getCategories} from "../../axios/category.ts";
+import type {SimpleBoard} from "../../interfaces/SimpleBoard.ts";
 
 // 임시 카테고리 데이터 (실제로는 props나 API에서 받아와야 함)
 
@@ -220,6 +229,8 @@ interface AssetItemProps {
 
 const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+    const [categories, setCategories] = useState<SimpleBoard[]>([])
+    const [categoryPage, setCategoryPage] = useState(1)
 
     const [formData, setFormData] = useState<Asset>({
         assetSeq: null,
@@ -230,7 +241,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
         location: '',
         acqDate: '',
         enabled: true,
-        categories: []
+        categories:[]
     });
 
     const emptyFormData = {
@@ -245,10 +256,9 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
         categories: []
     }
 
-
-    const mockCategories = [
-        {assetCategorySeq: 1, category: {categorySeq: 1, categoryName: 'IT장비', tagColor: '#3b82f6'}},
-    ];
+    // getCategories({page:1, size:20}, 1).then(res => {
+    //     // console.log(res);
+    // })
 
 
     // const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -271,6 +281,23 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
         }));
     };
 
+    const loadCategories = async () => {
+        getCategories({ page: categoryPage, size: 10 }, selectedGroup).then((res) => {
+            setCategories(prev => {
+                const merged = [...prev, ...res.content];
+                const unique = merged.filter(
+                    (item, index, self) =>
+                        index === self.findIndex((t) => t.seq === item.seq) // seq 중복 제거
+                );
+                return unique;
+            });
+        })
+    }
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
+
 
     // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     //     const { name, value, type, checked } = e.target;
@@ -282,11 +309,15 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     //
     const handleCategoryToggle = (category: AssetCategory) => {
         setFormData(prev => {
-            const isSelected = prev.categories.some(c => c.assetCategorySeq === category.assetCategorySeq);
+            const isSelected = prev.categories.some(
+                c => c.assetCategorySeq === category.assetCategorySeq
+            );
             if (isSelected) {
                 return {
                     ...prev,
-                    categories: prev.categories.filter(c => c.assetCategorySeq !== category.assetCategorySeq)
+                    categories: prev.categories.filter(
+                        c => c.assetCategorySeq !== category.assetCategorySeq
+                    )
                 };
             } else {
                 return {
@@ -296,6 +327,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
             }
         });
     };
+
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -457,31 +489,51 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
                     </div>
 
                     {/* 카테고리 */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-3">
-                            카테고리
-                        </label>
-                        <div className="flex flex-wrap gap-2">
-                            {mockCategories.map((category) => {
-                                const isSelected = formData.categories.some(c => c.assetCategorySeq === category.assetCategorySeq);
-                                return (
-                                    <button
-                                        key={category.assetCategorySeq}
-                                        type="button"
-                                        onClick={() => handleCategoryToggle(category)}
-                                        className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all ${
-                                            isSelected
-                                                ? 'text-white border-transparent'
-                                                : 'text-gray-600 border-gray-300 bg-white hover:bg-gray-50'
-                                        }`}
-                                        style={isSelected ? {backgroundColor: category.category.tagColor} : {}}
-                                    >
-                                        {category.category.categoryName}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                    <div className="flex flex-wrap gap-2">
+                        {categories.map((category: SimpleBoard) => {
+                            const isSelected = formData.categories.some(
+                                c => c.assetCategorySeq === category.seq
+                            );
+
+                            return (
+                                <button
+                                    key={category.seq}
+                                    type="button"
+                                    onClick={() =>
+                                        handleCategoryToggle({
+                                            assetCategorySeq: category.seq,
+                                            category: category,
+                                            del: false,
+                                        })
+                                    }
+                                    className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all`}
+                                    style={{
+                                        backgroundColor: isSelected
+                                            ? category.description // 선택되면 색 입히기
+                                            : "transparent",        // 아니면 투명
+                                        color: isSelected ? "white" : "black", // 글씨색 반전
+                                        borderColor: category.description
+                                    }}
+                                >
+                                    {category.name}
+                                </button>
+                            );
+                        })}
                     </div>
+                            {/*{categories.map((category: SimpleBoard) => (*/}
+
+                            {/*    <button key={category.seq}*/}
+                            {/*            */}
+                            {/*            className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all ${*/}
+                            {/*                isSelected*/}
+                            {/*                    ? 'text-white border-transparent'*/}
+                            {/*                    : 'text-gray-600 border-gray-300 bg-white hover:bg-gray-50'*/}
+                            {/*            }`}*/}
+                            {/*            style={isSelected ? {backgroundColor: category.description} : {}}*/}
+                            {/*    >*/}
+                            {/*        {category.name}*/}
+                            {/*    </button>*/}
+                            {/*))}*/}
 
                     {/* 사용 여부 */}
                     <div>
