@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import {type PageRequest } from "../interfaces/PageRequest";
 
 interface Props<T> {
-    value: T | null;
+    value?: T | null;
     fetchItems: (pageRequest: PageRequest) => Promise<T[]>;
     onChange: (value: T) => void;
     label?: string;
