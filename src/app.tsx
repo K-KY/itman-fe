@@ -43,7 +43,7 @@ export const App = () => {
                     <Route path="/assets" element={<AssetBoard/>}/>
                     <Route path="/jobs" element={<SimpleBoards boardName={"직무"} boardSubName={"설명"} service={new JobService()}/>}/>
                     <Route path="/category" element={<SimpleBoards boardName={"분류"} boardSubName={"색상"} service={new CategoryService()}/>}/>
-                    <Route path="/state" element={<SimpleBoards boardName={"상태"} boardSubName={"색성"} service={new StateService()}/>}/>
+                    <Route path="/state" element={<SimpleBoards boardName={"상태"} boardSubName={"상태"} service={new StateService()}/>}/>
                     <Route path="/positions"
                            element={<SimpleBoards boardName={"직위"} boardSubName={"설명"} service={new PositionService()}/>}/>
                     <Route path="/login" element={<Login/>}/>
