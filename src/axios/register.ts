@@ -2,8 +2,16 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8080/signup';
 
-function register() {
+
+async function register(userEmail: string, userPassword: string, username:string) {
+    return axios.post(API_URL, {userEmail, userPassword, username},
+        {withCredentials: true}
+    ).then(response => {
+        console.log(response.data);
+    })
+
 }
+
 
 async function verify(token: string) {
     try {

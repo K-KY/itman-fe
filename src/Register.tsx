@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-import {verify} from "./axios/register.ts";
+import {register, verify} from "./axios/register.ts";
+import {authMe} from "./axios/user.ts";
 
 export const RegisterComplete = () => {
     const navigate = useNavigate();
@@ -77,8 +78,56 @@ const RegisterFailed = () => {
 }
 
 const Register = () => {
+    const navigate = useNavigate();
+    const [userId, setUserId] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        authMe().then(user => {
+            if (user) {
+                navigate("/group");
+            }
+        });
+    }, [navigate]);
+
+    function handleRegister(e: React.FormEvent) {
+        e.preventDefault(); // form submit 막기
+        register(userId, password, username)
+            .then((res) => {
+                console.log("요청 성공", res);
+            })
+            .catch((err) => {
+                console.error("회원가입 실패", err);
+                alert("회원가입 실패");
+            });
+    }
+
+
     return (
-        <div></div>
+        <div>
+            <form className='login-form' onSubmit={handleRegister}>
+                <input
+                    type='text'
+                    placeholder='userId'
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                />
+                <input
+                    type='password'
+                    placeholder='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <input
+                    type='text'
+                    placeholder='username'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <button type='submit'>회원가입</button>
+            </form>
+        </div>
     )
 }
 

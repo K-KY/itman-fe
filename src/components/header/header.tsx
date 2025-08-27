@@ -35,7 +35,7 @@ const Header = () => {
     return (
         <HeaderContainer>
             <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"로그인"} href={"/login"}/>
-            <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"회원가입"}/>
+            <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"회원가입"} href={"/register"}/>
         </HeaderContainer>
     )
 
