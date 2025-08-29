@@ -24,6 +24,9 @@ export async function uploadImage(file: File) {
 
 export async function getImages(imageUrl: string | null) {
     try {
+        if (imageUrl === null || imageUrl === '') {
+            return null;
+        }
         const response = await axios.get(API_URL+`/${imageUrl}`,
             {withCredentials: true},
         )
