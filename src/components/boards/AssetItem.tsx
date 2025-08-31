@@ -1,6 +1,8 @@
 import type {Asset, AssetCategory} from "../../interfaces/Asset.ts";
 import {getImages} from "../../axios/image.ts";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useGroupStore} from "../../store/groupStore.ts";
 
 
 interface AssetItemProps {
@@ -16,6 +18,9 @@ interface Image {
 
 const AssetItem = ({item}: AssetItemProps) => {
     const [imageData, setImageData] = useState<Image | null>(null);
+    const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -25,13 +30,20 @@ const AssetItem = ({item}: AssetItemProps) => {
         fetchImage();
     }, [item.imageUrl]);
 
+    const detail = () => {
+        return (
+            navigate(`details/${selectedGroup}/?seq=${item.assetSeq}`)
+        )
+    }
+
     const imageUrl = imageData
         ? `data:${imageData.contentType};base64,${imageData.image}`
         : "/itman_header_logo.png";
 
 
     return (
-        <tr className="border-b transition-colors data-[state=selected]:bg-muted cursor-pointer hover:bg-muted/50">
+        <tr className="border-b transition-colors data-[state=selected]:bg-muted cursor-pointer hover:bg-muted/50"
+            onClick={() => detail()}>
             <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
                 <div className="flex items-center gap-3">
                     <div className="h-12 w-12 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
