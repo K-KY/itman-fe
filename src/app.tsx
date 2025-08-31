@@ -13,6 +13,7 @@ import AssetBoard from "./components/boards/AssetBoard.tsx";
 import {useGroupStore} from "./store/groupStore.ts";
 import {CategoryService} from "./service/CategoryService.ts";
 import {StateService} from "./service/StateService.ts";
+import AssetDetails from "./components/boards/AssetDetails.tsx";
 
 export const App = () => {
     const navigate = useNavigate();
@@ -47,6 +48,7 @@ export const App = () => {
                     <Route path="/positions"
                            element={<SimpleBoards boardName={"직위"} boardSubName={"설명"} service={new PositionService()}/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path={"/assets/details/*"} element={<AssetDetails/>}/>
                 </Routes>
             </div>
         </div>
