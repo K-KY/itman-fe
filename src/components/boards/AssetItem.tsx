@@ -41,6 +41,22 @@ const AssetItem = ({item}: AssetItemProps) => {
         : "/itman_header_logo.png";
 
 
+    //중복 코드
+    function getLuminance(hex: string): number {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+
+        // 가중치 적용된 밝기 값
+        return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    }
+
+    function getTextColor(bg: string): string {
+        const luminance = getLuminance(bg);
+        return luminance > 0.5 ? "#000000" : "#FFFFFF";
+    }
+
+
     return (
         <tr className="border-b transition-colors data-[state=selected]:bg-muted cursor-pointer hover:bg-muted/50"
             onClick={() => detail()}>
@@ -65,10 +81,10 @@ const AssetItem = ({item}: AssetItemProps) => {
                     {item.categories?.map((c: AssetCategory) => (
                         <a key={c.assetCategorySeq} className="cursor-pointer shrink-0">
                             <span
-                                className="inline-block px-2 py-1 text-sm font-medium rounded-md whitespace-nowrap"
-                                style={{backgroundColor: c.category.tagColor, color: "#fff"}}
+                                className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all`}
+                                style={{backgroundColor: c.category.description, color:getTextColor(c.category.description)}}
                             >
-                              {c.category.categoryName}
+                              {c.category.name}
                             </span>
                         </a>
                     ))}

@@ -1,11 +1,13 @@
 // types/dto.ts
 
 // Category DTO
+import type {SimpleBoard} from "./SimpleBoard.ts";
+
 export interface Category {
     categorySeq?: number;   // DB 생성 PK
-    categoryName?: string;
+    name?: string;
     groupSeq?: number;      // ManageGroup FK
-    tagColor?: string;      // Hex/RGB
+    tagColor: string;      // Hex/RGB
     enabled?: boolean;
     del?: boolean;
     createdDate?: Date;
@@ -15,7 +17,7 @@ export interface Category {
 // AssetCategory DTO
 export interface AssetCategory {
     assetCategorySeq?: number;  // DB 생성 PK
-    category: Category;  // Category 포함
+    category: SimpleBoard;  // Category 포함
     del?: boolean;
     createdDate?: Date;
     updatedDate?: Date;
