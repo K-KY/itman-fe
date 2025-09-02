@@ -282,7 +282,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     };
 
     const loadCategories = async () => {
-        getCategories({ page: categoryPage, size: 10 }, selectedGroup).then((res) => {
+        getCategories({ page: categoryPage, size: 130 }, selectedGroup).then((res) => {
             setCategories(prev => {
                 const merged = [...prev, ...res.content];
                 const unique = merged.filter(
@@ -365,6 +365,21 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     };
 
     if (!isOpen) return null;
+
+    function getLuminance(hex: string): number {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+
+        // 가중치 적용된 밝기 값
+        return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    }
+
+    function getTextColor(bg: string): string {
+        const luminance = getLuminance(bg);
+        return luminance > 0.5 ? "#000000" : "#FFFFFF";
+    }
+
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -511,7 +526,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
                                         backgroundColor: isSelected
                                             ? category.description // 선택되면 색 입히기
                                             : "transparent",        // 아니면 투명
-                                        color: isSelected ? "white" : "black", // 글씨색 반전
+                                        color: isSelected ? getTextColor(category.description) : "black", // 글씨색 반전
                                         borderColor: category.description
                                     }}
                                 >
