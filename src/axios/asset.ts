@@ -28,6 +28,19 @@ async function getAssets(pageRequest: PageRequest, group: number | null): Promis
     }
 }
 
+async function getAssetsDetail(assetSeq: number, group: number | null): Promise<Asset>{
+    try {
+        const response = await axios.get(API_URL + '/detail', {
+            params: {assetSeq, groupSeq: group},
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 
 async function postAsset(assetInfo: Asset) {
     try {
@@ -49,5 +62,5 @@ async function countAll(group: number | null): Promise<number> {
 }
 
 
-export {getAssets, postAsset, count, countAll};
+export {getAssets, getAssetsDetail, postAsset, count, countAll};
 
