@@ -67,6 +67,8 @@ const AssetBoard = () => {
         postAsset(assetData);
         alert('자산이 추가되었습니다!');
         setIsModalOpen(false);
+        location.reload()
+
     };
 
 
@@ -226,7 +228,6 @@ interface AssetItemProps {
 }
 
 
-
 const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     const selectedGroup = useGroupStore(state => state.selectedGroupSeq);
     const [categories, setCategories] = useState<SimpleBoard[]>([])
@@ -241,7 +242,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
         location: '',
         acqDate: '',
         enabled: true,
-        categories:[]
+        categories: []
     });
 
     const emptyFormData = {
@@ -282,7 +283,7 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
     };
 
     const loadCategories = async () => {
-        getCategories({ page: categoryPage, size: 130 }, selectedGroup).then((res) => {
+        getCategories({page: categoryPage, size: 130}, selectedGroup).then((res) => {
             setCategories(prev => {
                 const merged = [...prev, ...res.content];
                 const unique = merged.filter(
@@ -535,20 +536,20 @@ const AddAssetModal = ({isOpen, onClose, onSubmit}: AssetItemProps) => {
                             );
                         })}
                     </div>
-                            {/*{categories.map((category: SimpleBoard) => (*/}
+                    {/*{categories.map((category: SimpleBoard) => (*/}
 
-                            {/*    <button key={category.seq}*/}
-                            {/*            */}
-                            {/*            className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all ${*/}
-                            {/*                isSelected*/}
-                            {/*                    ? 'text-white border-transparent'*/}
-                            {/*                    : 'text-gray-600 border-gray-300 bg-white hover:bg-gray-50'*/}
-                            {/*            }`}*/}
-                            {/*            style={isSelected ? {backgroundColor: category.description} : {}}*/}
-                            {/*    >*/}
-                            {/*        {category.name}*/}
-                            {/*    </button>*/}
-                            {/*))}*/}
+                    {/*    <button key={category.seq}*/}
+                    {/*            */}
+                    {/*            className={`inline-block px-3 py-1.5 text-sm font-medium rounded-md border transition-all ${*/}
+                    {/*                isSelected*/}
+                    {/*                    ? 'text-white border-transparent'*/}
+                    {/*                    : 'text-gray-600 border-gray-300 bg-white hover:bg-gray-50'*/}
+                    {/*            }`}*/}
+                    {/*            style={isSelected ? {backgroundColor: category.description} : {}}*/}
+                    {/*    >*/}
+                    {/*        {category.name}*/}
+                    {/*    </button>*/}
+                    {/*))}*/}
 
                     {/* 사용 여부 */}
                     <div>
