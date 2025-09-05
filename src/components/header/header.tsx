@@ -1,6 +1,7 @@
 import {SimpleButton} from "../buttons/simpleButton.tsx";
 import {authMe} from "../../axios/user.ts";
 import {useEffect, useState} from "react";
+import {logout} from "../../axios/login.ts";
 
 const Header = () => {
     const [authenticated, setAuthenticated] = useState<boolean | null>(null);
@@ -23,11 +24,17 @@ const Header = () => {
         )
     }
 
+    const onLogout = () => {
+        console.log("Logged Out!");
+        logout();
+        window.location.href = "/login";
+    }
+
 
     if (authenticated) {
         return (
             <HeaderContainer>
-                <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"로그아웃"}/>
+                <SimpleButton className={"bg-gray-100 hover:bg-gray-200"} text={"로그아웃"} click={() => onLogout()}/>
             </HeaderContainer>
         )
     }
